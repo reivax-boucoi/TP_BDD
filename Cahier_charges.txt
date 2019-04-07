@@ -1,0 +1,19 @@
+Cahier des charges
+
+Énoncé 
+
+On souhaiterait automatiser la gestion des  évaluations du laboratoire LAAS-CNRS via le développement d’une application. Le développement de cette application nécessite, entre autres,  le développement d’une base de données pour stocker toutes les données. En effet, on veut éliminer l’utilisation  de différents supports éparpillés (papiers et électroniques) en centralisant toutes les données nécessaires dans une base de données relationnelles. Ces données peuvent être consultées et mises à jour à la demande.
+
+On vous sollicite donc pour mettre en place cette base de données. Ci-dessous on vous donne les informations nécessaires.
+
+On doit stocker les informations du personnel liées à leur identité (nom, prénom, date de naissance, adresse, date de recrutement). On distingue plusieurs types de personnel : scientifique et doctorant.
+
+Un doctorant est caractérisé par la date de soutenance (connue une fois la soutenance effectuée). Un doctorant à un ou plusieurs encadrants. Les encadrants sont obligatoirement des scientifiques. Le même encadrant peut encadrer plusieurs doctorants.
+
+Les scientifiques sont caractérisés par leur grade. Un scientifique peut être chercheur seulement ou chercheur-enseignant. Un chercheur-enseignant est caractérisé par un échelon et il est affilié à un établissement d’enseignement.  Les établissements sont caractérisés par un nom, un acronyme, et une adresse.
+
+Des publications sont produites par des scientifiques et/ou des doctorants. Parmi la liste des auteurs des publications, il peut y avoir des auteurs d’autres laboratoires externes. Autrement dit, une publication peut être produite par des scientifiques/doctorants du LAAS en collaboration avec d’autres auteurs d’autres laboratoires externes. Chaque publication est caractérisée par un titre, l’année de publication, le nom de la conférence/journal, la classe de la conférence, et le nombre de pages. Un scientifique et un doctorant peuvent produire plusieurs publications. Les laboratoires externes sont caractérisés par leur nom et leur pays.
+
+Les scientifiques peuvent participer à des projets de recherches. Chaque projet de recherche du LAAS a un porteur parmi les scientifiques. Un projet est caractérisé par un titre, un acronyme, année de début, durée,  la liste des partenaires participants,  son coût global, et le budget alloué au LAAS.  Chaque partenaire participant est caractérisé par un nom et le pays.
+
+Des évènements sont organisés par le laboratoire. On distingue les journées portes ouvertes et les conférences. Les deux évènements sont caractérisés par une date de début et de fin. Les conférences sont organisées par des présidents qui sont des scientifiques du laboratoire. Pour chaque conférence, on connaît le nombre d’inscriptions (i.e., le nombre de participants). Les journées portes ouvertes sont à elles organisées par le laboratoire et plusieurs personnels du laboratoire y participent.
