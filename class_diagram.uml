@@ -1,0 +1,73 @@
+
+@startuml
+'gharbi.ghada@gmail.com
+
+class Personnel {
+  nom
+  prenom
+  date_naissance
+  adresse
+  date_recrutement
+}
+class Scientifique{
+  
+}
+class Enseignant_Chercheur{
+  echelon
+}
+class Doctorant{
+  date_soutenance
+  }
+class Etablissement{
+  nom
+  acronyme
+  adresse
+}
+class Publication{
+  titre
+  annee_publication
+  nom_conference/journal
+  classe_conference
+  nb_pages
+}
+class Labo_externe{
+  nom
+  pays
+}
+class Partenaire_participant{
+  nom
+  pays
+}
+class Projet_recherche{
+ titre
+  acronyme
+  annee_debut
+  duree
+  cout_global
+  budget_alloue
+}
+class Evenement{
+  date_debut
+  date_fin
+}
+class JPO{
+}
+class Conference{
+  nb_participants
+}
+Personnel <|- Scientifique
+Personnel <|-down- Doctorant
+Scientifique <|-- Chercheur
+Scientifique <|- Enseignant_Chercheur
+Enseignant_Chercheur "1..*" o-down- "1" Etablissement
+Doctorant "1..*"-"1..*" Scientifique : Encadre <
+Projet_recherche "1..*"*-up-"1..*" Partenaire_participant
+Projet_recherche "1..*"--"1" Scientifique : Porte <
+
+Personnel "0..*"-up-"1..*" Publication : Publie >
+Evenement <|-up- JPO
+Evenement <|-down- Conference
+Conference "1..*"--"1..*" Scientifique : Preside <
+Labo_externe "0..*"--"1..*" Publication : Collabore >
+Personnel "1..*"--"1..*" JPO : Organise
+@enduml
