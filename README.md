@@ -8,7 +8,7 @@ Repo de travail TP_BDD 3IMACS-AE
 
 ***
 TODO  
-- [x] Concevoir la  base de donnée en UML  
+- [ ] Concevoir la  base de donnée en UML  
 - [ ] Traduire le diagramme de classe vers le modèle relationnel  
 - [ ] Normalisation de schéma relationnel obtenu  
 - [ ] Créer les tables qui correspondent au schéma relationnel normalisé  
