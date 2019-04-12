@@ -3,57 +3,57 @@
 'gharbi.ghada@gmail.com
 
 class Personnel {
-  nom
-  prenom
+  nom: String
+  prenom: String
   date_naissance
-  adresse
-  date_recrutement
+  adresse: String
+  date_recrutement: Date
 }
 class Scientifique{
-  
+  grade: Int
 }
 class Enseignant_Chercheur{
-  echelon
+  echelon: Int
 }
 class Doctorant{
-  date_soutenance
+  date_soutenance: Date
   }
 class Etablissement{
-  nom
-  acronyme
-  adresse
+  nom: String
+  acronyme: String
+  adresse: String
 }
 class Publication{
-  titre
-  annee_publication
-  nom_conference/journal
-  classe_conference
-  nb_pages
+  titre: String
+  annee_publication: Int
+  nom_conference/journal: String
+  classe_conference: String
+  nb_pages: Int
 }
 class Labo_externe{
-  nom
-  pays
+  nom: String
+  pays: String
 }
 class Partenaire_participant{
-  nom
-  pays
+  nom: String
+  pays: String
 }
 class Projet_recherche{
- titre
-  acronyme
-  annee_debut
-  duree
-  cout_global
-  budget_alloue
+ titre: String
+  acronyme: String
+  annee_debut: Int
+  duree: Int
+  cout_global: Int
+  budget_alloue: Int
 }
 class Evenement{
-  date_debut
-  date_fin
+  date_debut: Date
+  date_fin: Date
 }
 class JPO{
 }
 class Conference{
-  nb_participants
+  nb_participants: Int
 }
 Personnel <|- Scientifique
 Personnel <|-down- Doctorant
@@ -63,11 +63,13 @@ Enseignant_Chercheur "1..*" o-down- "1" Etablissement
 Doctorant "1..*"-"1..*" Scientifique : Encadre <
 Projet_recherche "1..*"*-up-"1..*" Partenaire_participant
 Projet_recherche "1..*"--"1" Scientifique : Porte <
+Projet_recherche "1..*"--"1..*" Scientifique : Participe <
 
 Personnel "0..*"-up-"1..*" Publication : Publie >
 Evenement <|-up- JPO
 Evenement <|-down- Conference
 Conference "1..*"--"1..*" Scientifique : Preside <
 Labo_externe "0..*"--"1..*" Publication : Collabore >
-Personnel "1..*"--"1..*" JPO : Organise
+Personnel "1..*"--"1..*" JPO : Organise >
+Personnel "1..*"--"1..*" JPO : Participe >
 @enduml
