@@ -11,10 +11,19 @@ SELECT s.Grade FROM Scientifique s WHERE s.idScientifique=(SELECT idScientifique
 SELECT Pays FROM Labo_externe WHERE Nom=(SELECT NomLabo FROM Auteur WHERE idAuteur=(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli=(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)));
 
 --3.     Les noms et les pays des auteurs collaborateurs d’un scientifique donné en 2016
-SELECT Pays FROM Labo_externe WHERE Nom=(SELECT NomLabo FROM Auteur WHERE idAuteur=(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli=(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)));
 
+
+(SELECT Nom FROM Auteur WHERE idAuteur=(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli=(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)
+INTERSECT
+(SELECT idPubliation FROM Publication WHERE annee_publication=2016)))
+UNION
+(SELECT Pays FROM Labo_externe WHERE Nom=(SELECT NomLabo FROM Auteur WHERE idAuteur=(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli=(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)
+INTERSECT
+(SELECT idPubliation FROM Publication WHERE annee_publication=2016))))
 
 --4.     Le nombre de collaborateurs d’un scientifique donné en 2018
+
+
 
 --5.     Pour chaque doctorant, on souhaiterait récupérer le nombre de ses publications
 
@@ -22,7 +31,7 @@ SELECT Pays FROM Labo_externe WHERE Nom=(SELECT NomLabo FROM Auteur WHERE idAute
 
 --7.     Le nombre de doctorants du laboratoire
 
-SELECT COUNT(*)FROM Doctorantjam
+SELECT COUNT(*)FROM Doctorant
 
 --8.     Le nombre de scientifiques du laboratoire
 
