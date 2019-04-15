@@ -58,14 +58,35 @@ INSERT INTO `Enseignant_chercheur` (`Echelon`,`idEtablissement`,`idScientifique`
 VALUES (2,51,10);
 
 INSERT INTO `Conference` (`idConference`,`date_debut`,`date_fin`,`idPresident`)
-VALUES (
+VALUES (31, '2011-11-12', '2048-04-05',10);
+INSERT INTO `Conference` (`idConference`,`date_debut`,`date_fin`,`idPresident`)
+VALUES (8, '2000-11-12', '2000-10-10',007);
+        
+INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+VALUES ('Sciences & Rhododendrons','Costume');
+INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+VALUES ('Msobzd & Roeqifh','Oui');
+INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+VALUES ('Sproutznitch Magazine','Non');
+        
 
-INSERT INTO 
-VALUES (''
-
-INSERT INTO 
-VALUES (''
-
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+VALUES (9,'Recherches sur les rhododendrons','2012-12-12','Sciences & Rhododendrons',25000);
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+VALUES (42,'Recherches sur les msobzd','2001-01-01','Msobzd & Roeqifh',50000);
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+VALUES (8,'Recherches sur les Sproutznitch','2000-01-01','Sproutznitch Magazine',3);
+        
+INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
+VALUES (9,1);
+INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
+VALUES (42,1);
+INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
+VALUES (8,007);
+        
+--Tout ce qui précède a été testé et implémenté
+        
+--AuteurPublie
 INSERT INTO 
 VALUES (''
 
