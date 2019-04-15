@@ -10,7 +10,7 @@ Repo de travail TP_BDD 3IMACS-AE
 TODO  
 - [x] Concevoir la  base de donnée en UML  (`class_diagram.png`)
 - [x] Traduire le diagramme de classe vers le modèle relationnel  (`relation_diagram.png`)
-- [ ] Normalisation de schéma relationnel obtenu  
+- [ ] Normalisation de schéma relationnel obtenu (`./SQL/fill_tables.sql`)
 - [x] Créer les tables qui correspondent au schéma relationnel normalisé  (`./SQL/create_alter_tables.sql`)
 - [ ] Remplir les tables crées par un jeux de données significatif  
 - [ ] Ecrire et tester les requêtes (`./SQL/Requetes.sql`)
