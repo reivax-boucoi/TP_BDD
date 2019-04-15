@@ -68,7 +68,7 @@ Projet_recherche "1..*"--"1..*" Scientifique : Participe <
 Personnel "0..*"-up-"1..*" Publication : Publie >
 Evenement <|-up- JPO
 Evenement <|-down- Conference
-Conference "1..*"--"1..*" Scientifique : Preside <
+Conference "1..*"--"1" Scientifique : Preside <
 Labo_externe "0..*"--"1..*" Publication : Collabore >
 Personnel "1..*"--"1..*" JPO : Organise >
 Personnel "1..*"--"1..*" JPO : Participe >
