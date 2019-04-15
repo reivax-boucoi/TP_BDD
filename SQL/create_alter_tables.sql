@@ -1,7 +1,6 @@
 CREATE TABLE `Scientifique` (
 	`idScientifique` int NOT NULL,
 	`Grade` int NOT NULL,
-	`idPersonnel` int NOT NULL,
 	PRIMARY KEY (`idScientifique`)
 );
 
@@ -37,7 +36,6 @@ CREATE TABLE `ScientifiqueParticipeProjet` (
 CREATE TABLE `Doctorant` (
 	`idDoctorant` int NOT NULL,
 	`date_soutenance` DATE NOT NULL,
-	`idPersonnel` int NOT NULL,
 	PRIMARY KEY (`idDoctorant`)
 );
 
@@ -106,7 +104,7 @@ CREATE TABLE `PersonnelParticipeJPO` (
 	`idJPO`  NOT NULL
 );
 
-ALTER TABLE `Scientifique` ADD CONSTRAINT `Scientifique_fk0` FOREIGN KEY (`idPersonnel`) REFERENCES `Personnel`(`idPersonnel`);
+ALTER TABLE `Scientifique` ADD CONSTRAINT `Scientifique_fk0` FOREIGN KEY (`idScientifique`) REFERENCES `Personnel`(`idPersonnel`);
 
 ALTER TABLE `Enseignant_chercheur` ADD CONSTRAINT `Enseignant_chercheur_fk0` FOREIGN KEY (`NomEtablissement`) REFERENCES `Etablissement`(`Nom`);
 
@@ -118,7 +116,7 @@ ALTER TABLE `ScientifiqueParticipeProjet` ADD CONSTRAINT `ScientifiqueParticipeP
 
 ALTER TABLE `ScientifiqueParticipeProjet` ADD CONSTRAINT `ScientifiqueParticipeProjet_fk1` FOREIGN KEY (`idScientifique`) REFERENCES `Scientifique`(`idScientifique`);
 
-ALTER TABLE `Doctorant` ADD CONSTRAINT `Doctorant_fk0` FOREIGN KEY (`idPersonnel`) REFERENCES `Personnel`(`idPersonnel`);
+ALTER TABLE `Doctorant` ADD CONSTRAINT `Doctorant_fk0` FOREIGN KEY (`idDoctorant`) REFERENCES `Personnel`(`idPersonnel`);
 
 ALTER TABLE `ScientifiqueEncadreDoctorant` ADD CONSTRAINT `ScientifiqueEncadreDoctorant_fk0` FOREIGN KEY (`idScientifique`) REFERENCES `Scientifique`(`idScientifique`);
 

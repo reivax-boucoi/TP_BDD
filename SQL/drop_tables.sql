@@ -1,0 +1,16 @@
+ DROP TABLE  Conference                    ;
+ DROP TABLE  Doctorant                     ;
+ DROP TABLE  Enseignant_chercheur          ;
+ DROP TABLE  Etablissement                 ;
+ DROP TABLE  JPO                           ;
+ DROP TABLE  LaboPublie                    ;
+ DROP TABLE  Labo_externe                  ;
+ DROP TABLE  Personnel                     ;
+ DROP TABLE  PersonnelParticipeJPO         ;
+ DROP TABLE  PersonnelPublie               ;
+ DROP TABLE  Projet_recherche              ;
+ DROP TABLE  Publication                   ;
+ DROP TABLE  Scientifique                  ;
+ DROP TABLE  ScientifiqueEncadreDoctorant  ;
+ DROP TABLE  ScientifiqueParticipeProjet   ;
+ DROP TABLE  ScientifiquePresideConference;
