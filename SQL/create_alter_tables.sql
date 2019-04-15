@@ -101,7 +101,7 @@ CREATE TABLE `ScientifiquePresideConference` (
 
 CREATE TABLE `PersonnelParticipeJPO` (
 	`idPersonnel` INT NOT NULL,
-	`idJPO`  NOT NULL
+	`idJPO` int NOT NULL
 );
 
 ALTER TABLE `Scientifique` ADD CONSTRAINT `Scientifique_fk0` FOREIGN KEY (`idScientifique`) REFERENCES `Personnel`(`idPersonnel`);
