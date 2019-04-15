@@ -13,6 +13,7 @@ TODO
 - [x] Normalisation de schéma relationnel obtenu 
 - [x] Créer les tables qui correspondent au schéma relationnel normalisé  (`./SQL/create_alter_tables.sql`)
 - [ ] Remplir les tables crées par un jeux de données significatif (`./SQL/fill_tables.sql`) 
-- [ ] Ecrire et tester les requêtes (`./SQL/Requetes.sql`)
+- [ ] Ecrire les requêtes (`./SQL/Requetes.sql`)
+- [ ] Tester les requêtes (`./SQL/Requetes.sql`)
 
 ISSUES
