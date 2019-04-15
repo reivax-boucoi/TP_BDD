@@ -13,5 +13,6 @@ TODO
 - [ ] Normalisation de schéma relationnel obtenu  
 - [x] Créer les tables qui correspondent au schéma relationnel normalisé  
 - [ ] Remplir les tables crées par un jeux de données significatif  
+- [ ] Ecrire et tester les requêtes
 
 ISSUES
