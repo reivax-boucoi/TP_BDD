@@ -61,7 +61,7 @@ Scientifique <|-- Chercheur
 Scientifique <|- Enseignant_Chercheur
 Enseignant_Chercheur "1..*" o-down- "1" Etablissement
 Doctorant "1..*"-"1..*" Scientifique : Encadre <
-Projet_recherche "1..*"*-up-"1..*" Partenaire_participant
+Projet_recherche "1..*" o-up- "1..*" Partenaire_participant
 Projet_recherche "1..*"--"1" Scientifique : Porte <
 Projet_recherche "1..*"--"1..*" Scientifique : Participe <
 
