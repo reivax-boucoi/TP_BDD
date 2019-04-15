@@ -2,6 +2,9 @@
 
 --1.     Le nom et les grades des encadrants d’un doctorant donné
 
+SELECT Nom FROM Personnel WHERE idPersonnel=(SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant=1);
+UNION
+SELECT s.Grade FROM Scientifique s WHERE s.idScientifique=(SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant=1)
 --2.     Les pays avec qui un scientifique donné collabore
 
 --3.     Les noms et les pays des auteurs collaborateurs d’un scientifique donné en 2016
