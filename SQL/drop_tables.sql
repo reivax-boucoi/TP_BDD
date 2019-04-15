@@ -3,7 +3,11 @@
  DROP TABLE  Enseignant_chercheur          ;
  DROP TABLE  Etablissement                 ;
  DROP TABLE  JPO                           ;
- DROP TABLE  LaboPublie                    ;
+ DROP TABLE  AuteurLaboPublie              ;
+ DROP TABLE  Auteur                        ;
+ DROP TABLE  TypeConf                      ;
+ DROP TABLE  PartenaireParticipeProjet     ;
+ DROP TABLE  Partenaire                    ;
  DROP TABLE  Labo_externe                  ;
  DROP TABLE  Personnel                     ;
  DROP TABLE  PersonnelParticipeJPO         ;
@@ -13,4 +17,3 @@
  DROP TABLE  Scientifique                  ;
  DROP TABLE  ScientifiqueEncadreDoctorant  ;
  DROP TABLE  ScientifiqueParticipeProjet   ;
- DROP TABLE  ScientifiquePresideConference;

@@ -2,12 +2,17 @@
 
 --1.     Le nom et les grades des encadrants d’un doctorant donné
 
-SELECT Nom FROM Personnel WHERE idPersonnel=(SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant=1);
+SELECT Nom FROM Personnel WHERE idPersonnel=(SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant=1)
 UNION
-SELECT s.Grade FROM Scientifique s WHERE s.idScientifique=(SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant=1)
+SELECT s.Grade FROM Scientifique s WHERE s.idScientifique=(SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant=1);
+
 --2.     Les pays avec qui un scientifique donné collabore
 
+SELECT Pays FROM Labo_externe WHERE Nom=(SELECT NomLabo FROM Auteur WHERE idAuteur=(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli=(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)));
+
 --3.     Les noms et les pays des auteurs collaborateurs d’un scientifique donné en 2016
+SELECT Pays FROM Labo_externe WHERE Nom=(SELECT NomLabo FROM Auteur WHERE idAuteur=(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli=(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)));
+
 
 --4.     Le nombre de collaborateurs d’un scientifique donné en 2018
 
@@ -16,6 +21,8 @@ SELECT s.Grade FROM Scientifique s WHERE s.idScientifique=(SELECT idScientifique
 --6.     Le nombre de publications par année de tout le laboratoire
 
 --7.     Le nombre de doctorants du laboratoire
+
+SELECT COUNT(*)FROM Doctorantjam
 
 --8.     Le nombre de scientifiques du laboratoire
 
