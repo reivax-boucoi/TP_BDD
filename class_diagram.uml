@@ -1,6 +1,5 @@
 
 @startuml
-'gharbi.ghada@gmail.com
 
 class Personnel {
   nom: String
