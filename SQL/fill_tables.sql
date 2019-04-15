@@ -52,7 +52,7 @@ VALUES (118518, 13);
 INSERT INTO `Etablissement` (`idEtablissement`,`Nom`,`Acronyme`,`Adresse`)
 VALUES (51,'Entreprise Décision Financières','EDF','48 impasse du budget');
 INSERT INTO `Etablissement` (`idEtablissement`,`Nom`,`Acronyme`,`Adresse`)
-VALUES (52,'H2C corporation','H2Ccorp','62 rue de l'eauc');
+VALUES (52,'H2C corporation','H2Ccorp','62 rue de l''eauc');
 
 INSERT INTO `Enseignant_chercheur` (`Echelon`,`idEtablissement`,`idScientifique`)
 VALUES (2,51,10);
