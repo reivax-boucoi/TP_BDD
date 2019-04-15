@@ -11,7 +11,7 @@ TODO
 - [x] Concevoir la  base de donnée en UML  
 - [x] Traduire le diagramme de classe vers le modèle relationnel  
 - [ ] Normalisation de schéma relationnel obtenu  
-- [ ] Créer les tables qui correspondent au schéma relationnel normalisé  
+- [x] Créer les tables qui correspondent au schéma relationnel normalisé  
 - [ ] Remplir les tables crées par un jeux de données significatif  
 
 ISSUES
