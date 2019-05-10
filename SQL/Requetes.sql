@@ -64,6 +64,13 @@ WHERE (j1.idPersonnel=j3.idPersonnel AND j2.idJPO=j3.idJPO)
 EXCEPT
 (SELECT idPersonnel from PersonnelParticipeJPO)
 
+
+--mysql
+SELECT idPersonnel from Personnel
+    LEFT JOIN PersonnelParticipeJPO USING (idPersonnel)
+WHERE 
+    PersonnelParticipeJPO.idPersonnel IS NULL; 
+    
 --13.   Le nom et l’année de toutes les conférences organisées par un scientifique donné.
 
 
