@@ -73,23 +73,78 @@ WHERE
     
 --13.   Le nom et l’année de toutes les conférences organisées par un scientifique donné.
 
-
+SELECT Nom_conf,EXTRACT(YEAR FROM date_debut) FROM Conference WHERE idPresident=7
 
 --14.   Le nom et le prénom du scientifique qui n’a jamais encadré
 
+(SELECT idScientifique from Scientifique)
+EXCEPT
+(SELECT idScientifique from ScientifiqueEncadreDoctorant)
+
+
+--mysql
+SELECT idScientifique from Scientifique
+    LEFT JOIN ScientifiqueEncadreDoctorant USING (idScientifique)
+WHERE 
+    ScientifiqueEncadreDoctorant.idScientifique IS NULL; 
+
 --15.   Pour une année donnée, on veut récupérer le nombre de publications, de conférences, et de  doctorants de chaque scientifique
+
+
 
 --16.   Le nom et le prénom du scientifique qui n’a jamais publié, encadré, ni participé à des projets.
 
+SELECT Nom,Prenom from Personnel p WHERE p.idPersonnel=
+((((SELECT idScientifique from Scientifique)
+EXCEPT
+(SELECT idScientifique from ScientifiqueEncadreDoctorant))
+EXCEPT
+(SELECT idScientifique from ScientifiqueParticipeProjet))
+EXCEPT
+SELECT idPersonnel from PersonnelPublie)
+
+--mysql TODO
+
 --17.   Afficher pour chaque scientifique, le nombre de ses publications, le nombre de ses projets et de ses doctorants.
+
+SELECT s.idScientifique, NbPubli,NbProjet,NbDocts
+FROM(SELECT idScientifique FROM Scientifique) as s
+LEFT JOIN (SELECT idPersonnel, COUNT(*) as NbPubli FROM PersonnelPublie GROUP BY idPersonnel) as p
+ON s.idScientifique=p.idPersonnel
+LEFT JOIN (SELECT idScientifique, COUNT(*) as NbProjet FROM ScientifiqueParticipeProjet GROUP BY idScientifique) as pr
+ON s.idScientifique=pr.idScientifique
+LEFT JOIN (SELECT idScientifique, COUNT(*) as NbDocts FROM ScientifiqueEncadreDoctorant GROUP BY idScientifique) as d
+ON s.idScientifique=d.idScientifique
 
 --18.   Les scientifiques qui ont que des doctorants ayant soutenus et pas de doctorant en cours
 
+SELECT idScientifique FROM ScientifiqueEncadreDoctorant 
+WHERE (idDoctorant IN (SELECT idDoctorant FROM Doctorant WHERE (date_soutenance < CURRENT_DATE)))
+EXCEPT
+SELECT idScientifique FROM ScientifiqueEncadreDoctorant 
+WHERE (idDoctorant IN (SELECT idDoctorant FROM Doctorant WHERE (date_soutenance >= CURRENT_DATE)))
+
 --19.   Pour chaque scientifique, le nombre de ses collaborateur externes
+, COUNT(*) as NbCollab
+
+
+SELECT s.idScientifique,COUNT(p.idAuteur) as NbCollab
+FROM Scientifique s
+JOIN (SELECT idPersonnel, idAuteur 
+FROM PersonnelPublie
+JOIN AuteurLaboPublie
+ON idPublication=idPubli) as p
+ON p.idPersonnel=s.idScientifique
+GROUP BY idScientifique
+
 
 --20.   Les scientifiques qui encadrent mais n’ont pas de doctorants ayant déjà soutenu
 
+
+
 --21.   Le nombre de collaborateurs par pays
+--TODO
+SELECT idAuteur FROM Auteur WHERE (NomLabo = (SELECT Nom FROM Labo_Externe WHERE 
 
 --22.   Les doctorants qui ont un seul encadrant et qui ont toujours des publications qu’avec leur encadrant
 
