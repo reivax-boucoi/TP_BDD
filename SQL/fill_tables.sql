@@ -11,8 +11,9 @@ VALUES ('Encadrator', 'Zi', 'Dans la matrice', '1950-10-04', '2000-09-25', 10);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
 VALUES ('Bond', 'James', 'No fix adress', '1920-11-11', '1946-08-02', 007);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
-VALUES ('Einstein', 'Albert', '12 Aenue de Zurich', '1801-10-19', '1819-06-14', 999);
-
+VALUES ('Einstein', 'Albert', '12 Avenue de Zurich', '1801-10-19', '1819-06-14', 999);
+INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
+VALUES ('Kine', 'Miss', 'Rue', '1313-10-13', '1393-01-13', 13);
 
 INSERT INTO `Scientifique` (`idScientifique`, `Grade`)
 VALUES (1,3);
@@ -24,6 +25,8 @@ INSERT INTO `Scientifique` (`idScientifique`, `Grade`)
 VALUES (007,3);
 INSERT INTO `Scientifique` (`idScientifique`, `Grade`)
 VALUES (999,1);
+INSERT INTO `Scientifique` (`idScientifique`, `Grade`)
+VALUES (13,0);
 
 INSERT INTO `Doctorant` (`idDoctorant`, `date_soutenance`)
 VALUES (121314,'1938-12-01');
@@ -48,6 +51,8 @@ INSERT INTO `PersonnelParticipeJPO` (`idPersonnel`, `idJPO`)
 VALUES (1, 12);
 INSERT INTO `PersonnelParticipeJPO` (`idPersonnel`, `idJPO`)
 VALUES (118518, 13);
+INSERT INTO `PersonnelParticipeJPO` (`idPersonnel`, `idJPO`)
+VALUES (118518, 12);
 
 INSERT INTO `Etablissement` (`idEtablissement`,`Nom`,`Acronyme`,`Adresse`)
 VALUES (51,'Entreprise Décision Financières','EDF','48 impasse du budget');
@@ -57,10 +62,12 @@ VALUES (52,'H2C corporation','H2Ccorp','62 rue de l''eauc');
 INSERT INTO `Enseignant_chercheur` (`Echelon`,`idEtablissement`,`idScientifique`)
 VALUES (2,51,10);
 
+INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
+VALUES (31, 'Encadrator VS Publicator : Conférence-combat', '2019-11-12', '2048-04-05',10);
 INSERT INTO `Conference` (`idConference`,`date_debut`,`date_fin`,`idPresident`)
-VALUES (31, '2011-11-12', '2048-04-05',10);
+VALUES (8, 'L''inspiration dans l''infiltration : Récit', '2000-11-12', '2000-10-10',007);
 INSERT INTO `Conference` (`idConference`,`date_debut`,`date_fin`,`idPresident`)
-VALUES (8, '2000-11-12', '2000-10-10',007);
+VALUES (18, 'Demain ne meurt pas aujourd''hui : TED talk', '2001-09-31', '2001-10-31',007);
         
 INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
 VALUES ('Sciences & Rhododendrons','Costume');
@@ -71,26 +78,45 @@ VALUES ('Sproutznitch Magazine','Non');
         
 
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (9,'Recherches sur les rhododendrons','2012-12-12','Sciences & Rhododendrons',25000);
+VALUES (9,'Recherches sur les rhododendrons','2019','Sciences & Rhododendrons',25000);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (42,'Recherches sur les msobzd','2001-01-01','Msobzd & Roeqifh',50000);
+VALUES (42,'Recherches sur les msobzd','2001','Msobzd & Roeqifh',50000);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (8,'Recherches sur les Sproutznitch','2000-01-01','Sproutznitch Magazine',3);
-        
+VALUES (8,'Recherches sur les Sproutznitch','2000','Sproutznitch Magazine',3);
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+VALUES (10,'Recherches sur lard des mets','2010','Miamgazine',2);
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+VALUES (111,'Recherches sur les laits laids','2005','Meuhgazine',1250);
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+VALUES (100,'Recherches sur la pauvreté','1848','Magzérable',1250); 
+ 
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
 VALUES (9,1);
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
 VALUES (42,1);
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
 VALUES (8,007);
-        
+INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
+VALUES (111,10);
+INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
+VALUES (10,10);
 --Tout ce qui précède a été testé et implémenté
-        
---AuteurPublie
-INSERT INTO 
-VALUES (''
 
-INSERT INTO 
+INSERT INTO `Labo_externe` (`Nom`,`Pays`)
+VALUES ('NotreDamedeFeu', 'Paris');
+INSERT INTO `Labo_externe` (`Nom`,`Pays`)
+VALUES ('Laas', 'MonPaïs');
+
+INSERT INTO `Auteur` (`idAuteur`, `Nom`, `Prenom`, `NomLabo`)
+VALUES (1, 'Hugo', 'Viktor', 'NotreDamedeFeu');
+
+
+--AuteurPublie
+INSERT INTO `AuteurLaboPublie` (`idAuteur`, `id Publi`)
+VALUES (1,100);
+
+--Projet_Recherche
+INSERT INTO `Projet_recherche`
 VALUES (''
 
 INSERT INTO 
