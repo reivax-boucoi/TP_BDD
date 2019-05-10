@@ -64,9 +64,9 @@ VALUES (2,51,10);
 
 INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
 VALUES (31, 'Encadrator VS Publicator : Conférence-combat', '2019-11-12', '2048-04-05',10);
-INSERT INTO `Conference` (`idConference`,`date_debut`,`date_fin`,`idPresident`)
+INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
 VALUES (8, 'L''inspiration dans l''infiltration : Récit', '2000-11-12', '2000-10-10',007);
-INSERT INTO `Conference` (`idConference`,`date_debut`,`date_fin`,`idPresident`)
+INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
 VALUES (18, 'Demain ne meurt pas aujourd''hui : TED talk', '2001-09-31', '2001-10-31',007);
         
 INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
@@ -75,20 +75,26 @@ INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
 VALUES ('Msobzd & Roeqifh','Oui');
 INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
 VALUES ('Sproutznitch Magazine','Non');
-        
+INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+VALUES ('Miamgazine','3èmeB');
+INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+VALUES ('Meuhgazine','TrèsClasse');
+INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+VALUES ('Magzérable','Mizérableuh');     
+
 
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (9,'Recherches sur les rhododendrons','2019','Sciences & Rhododendrons',25000);
+VALUES (9,'Recherches sur les rhododendrons',2019,'Sciences & Rhododendrons',25000);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (42,'Recherches sur les msobzd','2001','Msobzd & Roeqifh',50000);
+VALUES (42,'Recherches sur les msobzd',2001,'Msobzd & Roeqifh',50000);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (8,'Recherches sur les Sproutznitch','2000','Sproutznitch Magazine',3);
+VALUES (8,'Recherches sur les Sproutznitch',2000,'Sproutznitch Magazine',3);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (10,'Recherches sur lard des mets','2010','Miamgazine',2);
+VALUES (10,'Recherches sur lard des mets',2010,'Miamgazine',2);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (111,'Recherches sur les laits laids','2005','Meuhgazine',1250);
+VALUES (111,'Recherches sur les laits laids',2005,'Meuhgazine',1250);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (100,'Recherches sur la pauvreté','1848','Magzérable',1250); 
+VALUES (100,'Recherches sur la pauvreté',1848,'Magzérable',1848); 
  
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
 VALUES (9,1);
@@ -100,7 +106,6 @@ INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
 VALUES (111,10);
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
 VALUES (10,10);
---Tout ce qui précède a été testé et implémenté
 
 INSERT INTO `Labo_externe` (`Nom`,`Pays`)
 VALUES ('NotreDamedeFeu', 'Paris');
@@ -110,13 +115,16 @@ VALUES ('Laas', 'MonPaïs');
 INSERT INTO `Auteur` (`idAuteur`, `Nom`, `Prenom`, `NomLabo`)
 VALUES (1, 'Hugo', 'Viktor', 'NotreDamedeFeu');
 
-
---AuteurPublie
-INSERT INTO `AuteurLaboPublie` (`idAuteur`, `id Publi`)
+INSERT INTO `AuteurLaboPublie` (`idAuteur`, `idPubli`)
 VALUES (1,100);
 
---Projet_Recherche
-INSERT INTO `Projet_recherche`
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+VALUES (100,'Recherches sur la pauvreté',1848,'Magzérable',1250); 
+
+--Tout ce qui précède a été testé et implémenté (et c'est vrai cette fois)
+
+
+INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`)
 VALUES (''
 
 INSERT INTO 
