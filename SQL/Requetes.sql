@@ -53,9 +53,20 @@ SELECT COUNT(*)FROM Scientifique;
 
 --11.   Les personnes ayant participé à toutes les journées portes ouvertes
 
+SELECT idPersonnel FROM PersonnelParticipeJPO j1
+WHERE NOT EXISTS(SELECT * FROM JPO j2)
+WHERE NOT EXISTS(SELECT * FROM PersonnelParticipeJPO j3)
+WHERE (j1.idPersonnel=j3.idPersonnel AND j2.idJPO=j3.idJPO)
+
 --12.   Les personnes qui n’ont jamais participé aux journées portes ouvertes
 
+(SELECT idPersonnel from Personnel)
+EXCEPT
+(SELECT idPersonnel from PersonnelParticipeJPO)
+
 --13.   Le nom et l’année de toutes les conférences organisées par un scientifique donné.
+
+
 
 --14.   Le nom et le prénom du scientifique qui n’a jamais encadré
 

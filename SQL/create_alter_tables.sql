@@ -60,7 +60,7 @@ CREATE TABLE `ScientifiqueEncadreDoctorant` (
 CREATE TABLE `Publication` (
 	`idPublication` int NOT NULL,
 	`titre` varchar(255) NOT NULL,
-	`annee_publication` DATE NOT NULL,
+	`annee_publication` int NOT NULL,
 	`nom_conference/journal` varchar(255) NOT NULL,
 	`nb_pages` int NOT NULL,
 	PRIMARY KEY (`idPublication`)
@@ -108,6 +108,7 @@ CREATE TABLE `PersonnelPublie` (
 
 CREATE TABLE `Conference` (
 	`idConference` INT NOT NULL AUTO_INCREMENT,
+	`Nom_conf` VARCHAR(255) NOT NULL,
 	`date_debut` DATE NOT NULL,
 	`date_fin` DATE NOT NULL,
 	`idPresident` int NOT NULL,
