@@ -99,17 +99,17 @@ INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idP
 VALUES (38, 'Cours de torture pour débutants', '2018-09-31', '2018-10-31',007);
         
 INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
-VALUES ('Sciences & Rhododendrons','Costume');
+VALUES ('Sciences & Rhododendrons','A');
 INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
-VALUES ('Msobzd & Roeqifh','Oui');
+VALUES ('Msobzd & Roeqifh','A');
 INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
-VALUES ('Sproutznitch Magazine','Non');
+VALUES ('Sproutznitch Magazine','B');
 INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
-VALUES ('Miamgazine','3èmeB');
+VALUES ('Miamgazine','A');
 INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
-VALUES ('Meuhgazine','TrèsClasse');
+VALUES ('Meuhgazine','B');
 INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
-VALUES ('Magzérable','Mizérableuh');     
+VALUES ('Magzérable','C');     
 
 
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
@@ -192,5 +192,11 @@ INSERT INTO `PartenaireParticipeProjet` (`TitreProjet`,`idPartenaire`)
 VALUES ('Amen.',1212);
 INSERT INTO `PartenaireParticipeProjet` (`TitreProjet`,`idPartenaire`)
 VALUES ('Vivement Dimanche Matin',1214);
+INSERT INTO `PartenaireParticipeProjet` (`TitreProjet`,`idPartenaire`)
+VALUES ('Vivement Dimanche Matin',1212);
+INSERT INTO `PartenaireParticipeProjet` (`TitreProjet`,`idPartenaire`)
+VALUES ('Parce que c''est notre projet',1212);
+INSERT INTO `PartenaireParticipeProjet` (`TitreProjet`,`idPartenaire`)
+VALUES ('Meilleur projet du meilleur quinôme',1212);
 
 --Tout ce qui précède a été testé et implémenté (et c'est vrai cette fois)
