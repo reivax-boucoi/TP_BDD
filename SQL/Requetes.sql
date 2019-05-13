@@ -2,6 +2,7 @@
 
 --3.     Les noms et les pays des auteurs collaborateurs d’un scientifique donné en 2016
 
+--non testable sous mysql
 
 ((SELECT Nom FROM Auteur WHERE idAuteur IN(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli=(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)
 INTERSECT
@@ -11,42 +12,18 @@ UNION
 INTERSECT
 (SELECT idPubliation FROM Publication WHERE annee_publication=2016)))));
 
---4.     Le nombre de collaborateurs d’un scientifique donné en 2018
 
-
-SELECT COUNT(idPersonnel)as NbCollab FROM PersonnelPublie 
-WHERE (idPublication IN 
-	(SELECT idPublication FROM Publication 
-	WHERE annee_publication=2018 AND idPublication IN
-	(SELECT idPublication FROM PersonnelPublie 
-		WHERE idPersonnel=10)
-	) AND idPersonnel!=10)
 
 --5.     Pour chaque doctorant, on souhaiterait récupérer le nombre de ses publications
 
-SELECT idPersonnel, cntPubli FROM 
-(SELECT idPersonnel,COUNT(idPublication) as cntPubli FROM PersonnelPublie GROUP BY idPersonnel),
-(SELECT idDoctorant FROM Doctorant) WHERE idDoctorant=idPersonnel;
+SELECT d.idDoctorant,p.cntPubli
+FROM (SELECT idPersonnel,COUNT(idPublication) as cntPubli FROM PersonnelPublie)as p
+RIGHT JOIN (SELECT idDoctorant FROM Doctorant) as d
+ON d.idDoctorant=p.idPersonnel
 
---6.     Le nombre de publications par année de tout le laboratoire
 
-(SELECT annee_publication,COUNT(*) as cntPubli FROM Publication GROUP BY annee_publication)
 
---7.     Le nombre de doctorants du laboratoire
 
-SELECT COUNT(*) nbDoctorants FROM Doctorant;
-
---8.     Le nombre de scientifiques du laboratoire
-
-SELECT COUNT(*)FROM Scientifique;
-
---9.     Le nombre d’enseignants chercheurs par établissement d’enseignement
-
-(SELECT idEtablissement,COUNT(*) as cntEnseignants FROM Enseignant_chercheur GROUP BY idEtablissement)
-
---10.   Le nombre de publications par scientifique/doctorant
-
-(SELECT idPersonnel,COUNT(idPublication) as cntPubli FROM PersonnelPublie GROUP BY idPersonnel)
 
 --11.   Les personnes ayant participé à toutes les journées portes ouvertes
 
@@ -192,3 +169,37 @@ ON s.idScientifique=p.idPersonnel
 --2.     Les pays avec qui un scientifique donné collabore
 
 SELECT Pays FROM Labo_externe WHERE Nom IN(SELECT NomLabo FROM Auteur WHERE idAuteur=(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli IN(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)));
+
+--4.     Le nombre de collaborateurs d’un scientifique donné en 2018
+
+
+SELECT COUNT(idPersonnel)as NbCollab FROM PersonnelPublie 
+WHERE (idPublication IN 
+	(SELECT idPublication FROM Publication 
+	WHERE annee_publication=2018 AND idPublication IN
+	(SELECT idPublication FROM PersonnelPublie 
+		WHERE idPersonnel=10)
+	) AND idPersonnel!=10)
+	
+	
+--6.     Le nombre de publications par année de tout le laboratoire
+
+(SELECT annee_publication,COUNT(*) as cntPubli FROM Publication GROUP BY annee_publication)
+
+
+--7.     Le nombre de doctorants du laboratoire
+
+SELECT COUNT(*) nbDoctorants FROM Doctorant;
+
+--8.     Le nombre de scientifiques du laboratoire
+
+SELECT COUNT(*) as NbScientifiques FROM Scientifique;
+
+
+--9.     Le nombre d’enseignants chercheurs par établissement d’enseignement
+
+(SELECT idEtablissement,COUNT(*) as cntEnseignants FROM Enseignant_chercheur GROUP BY idEtablissement)
+
+--10.   Le nombre de publications par scientifique/doctorant
+
+(SELECT idPersonnel,COUNT(idPublication) as cntPubli FROM PersonnelPublie GROUP BY idPersonnel)
