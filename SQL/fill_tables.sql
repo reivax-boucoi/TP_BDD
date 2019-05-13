@@ -83,9 +83,17 @@ INSERT INTO `Etablissement` (`idEtablissement`,`Nom`,`Acronyme`,`Adresse`)
 VALUES (51,'Entreprise Décision Financières','EDF','48 impasse du budget');
 INSERT INTO `Etablissement` (`idEtablissement`,`Nom`,`Acronyme`,`Adresse`)
 VALUES (52,'H2C corporation','H2Ccorp','62 rue de l''eauc');
+INSERT INTO `Etablissement` (`idEtablissement`,`Nom`,`Acronyme`,`Adresse`)
+VALUES (53,'Les Renifleurs Educateurs Mous','LREM','12 impasse de la Republique');
+
 
 INSERT INTO `Enseignant_chercheur` (`Echelon`,`idEtablissement`,`idScientifique`)
 VALUES (2,51,10);
+INSERT INTO `Enseignant_chercheur` (`Echelon`,`idEtablissement`,`idScientifique`)
+VALUES (2,51,007);
+INSERT INTO `Enseignant_chercheur` (`Echelon`,`idEtablissement`,`idScientifique`)
+VALUES (2,52,999);
+
 
 INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
 VALUES (31, 'Encadrator VS Publicator : Conférence-combat', '2019-11-12', '2048-04-05',10);
@@ -109,22 +117,31 @@ VALUES ('Miamgazine','A');
 INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
 VALUES ('Meuhgazine','B');
 INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
-VALUES ('Magzérable','C');     
+VALUES ('Magzérable','A'); 
+INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+VALUES ('Memegazine','A'); 
+INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+VALUES ('Beergazine','A'); 
+
 
 
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
 VALUES (9,'Recherches sur les rhododendrons',2019,'Sciences & Rhododendrons',25000);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (42,'Recherches sur les msobzd',2001,'Msobzd & Roeqifh',50000);
+VALUES (42,'Recherches sur les msobzd',2018,'Msobzd & Roeqifh',50000);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (8,'Recherches sur les Sproutznitch',2000,'Sproutznitch Magazine',3);
+VALUES (8,'Recherches sur les Sproutznitch',2019,'Sproutznitch Magazine',3);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
 VALUES (10,'Recherches sur lard des mets',2018,'Miamgazine',2);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (111,'Recherches sur les laits laids',2005,'Meuhgazine',1250);
+VALUES (111,'Recherches sur les laits laids',2018,'Meuhgazine',1250);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (100,'Recherches sur la pauvreté',1848,'Magzérable',1848); 
- 
+VALUES (100,'Recherches sur la pauvreté',2019,'Magzérable',1848); 
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+VALUES (2,'Recherches sur les memes',2018,'Memegazine',5); 
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+VALUES (3,'Recherches sur le brassage',2018,'Beergazine',20); 
+
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
 VALUES (9,1);
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
@@ -144,26 +161,33 @@ VALUES (111,121314);
 
 
 INSERT INTO `Labo_externe` (`Nom`,`Pays`)
-VALUES ('NotreDamedeFeu', 'Paris');
+VALUES ('ThorLabLentilleCassoulet', 'France');
 INSERT INTO `Labo_externe` (`Nom`,`Pays`)
-VALUES ('Laas', 'MonPaïs');
+VALUES ('Laas', 'France');
 INSERT INTO `Labo_externe` (`Nom`,`Pays`)
 VALUES ('cdelalitterature', 'Estonie');
 INSERT INTO `Labo_externe` (`Nom`,`Pays`)
-VALUES ('Chambre', 'URSS');
+VALUES ('CNRS', 'URSS');
 
 INSERT INTO `Auteur` (`idAuteur`, `Nom`, `Prenom`, `NomLabo`)
-VALUES (1, 'Hugo', 'Viktor', 'NotreDamedeFeu');
+VALUES (1, 'Hugo', 'Viktor', 'ThorLabLentilleCassoulet');
 INSERT INTO `Auteur` (`idAuteur`, `Nom`, `Prenom`, `NomLabo`)
 VALUES (2, 'Sade', 'Le Marquis', 'Cdelalitterature');
 INSERT INTO `Auteur` (`idAuteur`, `Nom`, `Prenom`, `NomLabo`)
-VALUES (3, 'Apollinaire', 'Kev', 'Chambre');
+VALUES (3, 'Apollinaire', 'Kev', 'CNRS');
+INSERT INTO `Auteur` (`idAuteur`, `Nom`, `Prenom`, `NomLabo`)
+VALUES (4, 'Vernes', 'Jules', 'ThorLabLentilleCassoulet');
+INSERT INTO `Auteur` (`idAuteur`, `Nom`, `Prenom`, `NomLabo`)
+VALUES (5, 'Mahout', 'Vincent', 'ThorLabLentilleCassoulet');
 
 INSERT INTO `AuteurLaboPublie` (`idAuteur`, `idPubli`)
 VALUES (1,100);
 INSERT INTO `AuteurLaboPublie` (`idAuteur`, `idPubli`)
 VALUES (2,42);
-
+INSERT INTO `AuteurLaboPublie` (`idAuteur`, `idPubli`)
+VALUES (4,2);
+INSERT INTO `AuteurLaboPublie` (`idAuteur`, `idPubli`)
+VALUES (5,3);
 
 INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`,`Cout_global`,`Budget_alloue`,`ScientifiquePorteur`)
 VALUES ('Meilleur projet du meilleur quinôme','MPMQ',2019,1000,0,1,10);
