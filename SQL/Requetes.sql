@@ -2,7 +2,6 @@
 
 --3.     Les noms et les pays des auteurs collaborateurs d’un scientifique donné en 2016
 
---non testable sous mysql
 
 ((SELECT Nom FROM Auteur WHERE idAuteur IN(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli=(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)
 INTERSECT
@@ -23,59 +22,38 @@ ON d.idDoctorant=p.idPersonnel
 
 
 
-
-
---11.   Les personnes ayant participé à toutes les journées portes ouvertes
-
-SELECT idPersonnel FROM PersonnelParticipeJPO j1
-WHERE NOT EXISTS(SELECT * FROM JPO j2)
-WHERE NOT EXISTS(SELECT * FROM PersonnelParticipeJPO j3)
-WHERE (j1.idPersonnel=j3.idPersonnel AND j2.idJPO=j3.idJPO)
-
 --12.   Les personnes qui n’ont jamais participé aux journées portes ouvertes
 
+--non testable sous mysql
 (SELECT idPersonnel from Personnel)
 EXCEPT
 (SELECT idPersonnel from PersonnelParticipeJPO)
 
 
---mysql
+--mysql, testé
 SELECT idPersonnel from Personnel
     LEFT JOIN PersonnelParticipeJPO USING (idPersonnel)
 WHERE 
     PersonnelParticipeJPO.idPersonnel IS NULL; 
     
---13.   Le nom et l’année de toutes les conférences organisées par un scientifique donné.
-
-SELECT Nom_conf,EXTRACT(YEAR FROM date_debut) FROM Conference WHERE idPresident=7
 
 --14.   Le nom et le prénom du scientifique qui n’a jamais encadré
-
+--non testable sous mysql
 (SELECT idScientifique from Scientifique)
 EXCEPT
 (SELECT idScientifique from ScientifiqueEncadreDoctorant)
 
 
---mysql
+--mysql, testé
 SELECT idScientifique from Scientifique
     LEFT JOIN ScientifiqueEncadreDoctorant USING (idScientifique)
 WHERE 
     ScientifiqueEncadreDoctorant.idScientifique IS NULL; 
 
---15.   Pour une année donnée, on veut récupérer le nombre de publications, de conférences, et de  doctorants de chaque scientifique
-SELECT s.idScientifique, NbPubli,NbConf,NbDocts
-FROM(SELECT idScientifique FROM Scientifique) as s
-LEFT JOIN (SELECT idPresident,COUNT(*) as NbConf FROM Conference WHERE EXTRACT(YEAR FROM date_debut)=2018 GROUP BY idPresident) as c
-ON s.idScientifique=c.idPresident
 
-LEFT JOIN (SELECT idPersonnel,COUNT(*) as NbPubli FROM PersonnelPublie WHERE idPublication IN(SELECT idPublication FROM Publication	WHERE annee_publication=2018) GROUP BY idPersonnel) as p
-ON s.idScientifique=p.idPersonnel
-
-LEFT JOIN	(SELECT idScientifique,COUNT(*) as NbDocts FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SELECT idDoctorant FROM Doctorant WHERE EXTRACT(YEAR FROM date_soutenance)=2018)GROUP BY idScientifique) as d
-ON s.idScientifique=d.idScientifique
 
 --16.   Le nom et le prénom du scientifique qui n’a jamais publié, encadré, ni participé à des projets.
-
+--non testable sous mysql
 SELECT Nom,Prenom from Personnel p WHERE p.idPersonnel=
 ((((SELECT idScientifique from Scientifique)
 EXCEPT
@@ -87,19 +65,9 @@ SELECT idPersonnel from PersonnelPublie)
 
 --mysql TODO
 
---17.   Afficher pour chaque scientifique, le nombre de ses publications, le nombre de ses projets et de ses doctorants.
-
-SELECT s.idScientifique, NbPubli,NbProjet,NbDocts
-FROM(SELECT idScientifique FROM Scientifique) as s
-LEFT JOIN (SELECT idPersonnel, COUNT(*) as NbPubli FROM PersonnelPublie GROUP BY idPersonnel) as p
-ON s.idScientifique=p.idPersonnel
-LEFT JOIN (SELECT idScientifique, COUNT(*) as NbProjet FROM ScientifiqueParticipeProjet GROUP BY idScientifique) as pr
-ON s.idScientifique=pr.idScientifique
-LEFT JOIN (SELECT idScientifique, COUNT(*) as NbDocts FROM ScientifiqueEncadreDoctorant GROUP BY idScientifique) as d
-ON s.idScientifique=d.idScientifique
-
 --18.   Les scientifiques qui ont que des doctorants ayant soutenus et pas de doctorant en cours
 
+--non testable sous mysql
 SELECT idScientifique FROM ScientifiqueEncadreDoctorant 
 WHERE (idDoctorant IN (SELECT idDoctorant FROM Doctorant WHERE (date_soutenance < CURRENT_DATE)))
 EXCEPT
@@ -203,3 +171,37 @@ SELECT COUNT(*) as NbScientifiques FROM Scientifique;
 --10.   Le nombre de publications par scientifique/doctorant
 
 (SELECT idPersonnel,COUNT(idPublication) as cntPubli FROM PersonnelPublie GROUP BY idPersonnel)
+
+--11.   Les personnes ayant participé à toutes les journées portes ouvertes
+
+SELECT DISTINCT idPersonnel FROM PersonnelParticipeJPO j1
+WHERE NOT EXISTS(SELECT * FROM JPO j2
+WHERE NOT EXISTS(SELECT * FROM PersonnelParticipeJPO j3
+WHERE (j1.idPersonnel=j3.idPersonnel AND j2.idJPO=j3.idJPO)))
+
+--13.   Le nom et l’année de toutes les conférences organisées par un scientifique donné.
+
+SELECT Nom_conf,EXTRACT(YEAR FROM date_debut) as annee FROM Conference WHERE idPresident=7
+
+--15.   Pour une année donnée, on veut récupérer le nombre de publications, de conférences, et de  doctorants de chaque scientifique
+SELECT s.idScientifique, NbPubli,NbConf,NbDocts
+FROM(SELECT idScientifique FROM Scientifique) as s
+LEFT JOIN (SELECT idPresident,COUNT(*) as NbConf FROM Conference WHERE EXTRACT(YEAR FROM date_debut)=2018 GROUP BY idPresident) as c
+ON s.idScientifique=c.idPresident
+
+LEFT JOIN (SELECT idPersonnel,COUNT(*) as NbPubli FROM PersonnelPublie WHERE idPublication IN(SELECT idPublication FROM Publication	WHERE annee_publication=2018) GROUP BY idPersonnel) as p
+ON s.idScientifique=p.idPersonnel
+
+LEFT JOIN	(SELECT idScientifique,COUNT(*) as NbDocts FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SELECT idDoctorant FROM Doctorant WHERE EXTRACT(YEAR FROM date_soutenance)=2018)GROUP BY idScientifique) as d
+ON s.idScientifique=d.idScientifique
+
+--17.   Afficher pour chaque scientifique, le nombre de ses publications, le nombre de ses projets et de ses doctorants.
+
+SELECT s.idScientifique, NbPubli,NbProjet,NbDocts
+FROM(SELECT idScientifique FROM Scientifique) as s
+LEFT JOIN (SELECT idPersonnel, COUNT(*) as NbPubli FROM PersonnelPublie GROUP BY idPersonnel) as p
+ON s.idScientifique=p.idPersonnel
+LEFT JOIN (SELECT idScientifique, COUNT(*) as NbProjet FROM ScientifiqueParticipeProjet GROUP BY idScientifique) as pr
+ON s.idScientifique=pr.idScientifique
+LEFT JOIN (SELECT idScientifique, COUNT(*) as NbDocts FROM ScientifiqueEncadreDoctorant GROUP BY idScientifique) as d
+ON s.idScientifique=d.idScientifique
