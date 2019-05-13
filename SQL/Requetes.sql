@@ -1,23 +1,13 @@
 --REQUETES NON TESTEES ---------------------------------------------------------------
 
---1.     Le nom et les grades des encadrants d’un doctorant donné
-
-(SELECT Nom FROM Personnel WHERE idPersonnel=(SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant=1)
-UNION
-SELECT s.Grade FROM Scientifique s WHERE s.idScientifique=(SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant=1));
-
---2.     Les pays avec qui un scientifique donné collabore
-
-SELECT Pays FROM Labo_externe WHERE Nom=(SELECT NomLabo FROM Auteur WHERE idAuteur=(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli=(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)));
-
 --3.     Les noms et les pays des auteurs collaborateurs d’un scientifique donné en 2016
 
 
-((SELECT Nom FROM Auteur WHERE idAuteur=(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli=(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)
+((SELECT Nom FROM Auteur WHERE idAuteur IN(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli=(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)
 INTERSECT
 (SELECT idPubliation FROM Publication WHERE annee_publication=2016)))
 UNION
-(SELECT Pays FROM Labo_externe WHERE Nom=(SELECT NomLabo FROM Auteur WHERE idAuteur=(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli=(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)
+(SELECT Pays FROM Labo_externe WHERE Nom IN(SELECT NomLabo FROM Auteur WHERE idAuteur=(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli IN(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)
 INTERSECT
 (SELECT idPubliation FROM Publication WHERE annee_publication=2016)))));
 
@@ -190,3 +180,15 @@ SELECT idDoctorant FROM ScientifiqueEncadreDoctorant GROUP BY idDoctorant HAVING
 
 
 -- REQUETES TESTEES ---------------------------------------------------------------
+
+--1.     Le nom et les grades des encadrants d’un doctorant donné
+
+SELECT p.Nom,s.grade FROM 
+(SELECT Nom, idPersonnel FROM Personnel WHERE idPersonnel IN (SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant=1))as p
+JOIN
+(SELECT s.grade,s.idScientifique FROM Scientifique s WHERE s.idScientifique IN (SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant=1))as s
+ON s.idScientifique=p.idPersonnel
+
+--2.     Les pays avec qui un scientifique donné collabore
+
+SELECT Pays FROM Labo_externe WHERE Nom IN(SELECT NomLabo FROM Auteur WHERE idAuteur=(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli IN(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=1)));
