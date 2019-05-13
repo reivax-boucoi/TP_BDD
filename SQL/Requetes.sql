@@ -24,6 +24,13 @@ INTERSECT
 --4.     Le nombre de collaborateurs d’un scientifique donné en 2018
 
 
+SELECT COUNT(idPersonnel)as NbCollab FROM PersonnelPublie 
+WHERE (idPublication IN 
+	(SELECT idPublication FROM Publication 
+	WHERE annee_publication=2018 AND idPublication IN
+	(SELECT idPublication FROM PersonnelPublie 
+		WHERE idPersonnel=10)
+	) AND idPersonnel!=10)
 
 --5.     Pour chaque doctorant, on souhaiterait récupérer le nombre de ses publications
 
@@ -89,8 +96,12 @@ WHERE
     ScientifiqueEncadreDoctorant.idScientifique IS NULL; 
 
 --15.   Pour une année donnée, on veut récupérer le nombre de publications, de conférences, et de  doctorants de chaque scientifique
+(SELECT idPresident,idConference FROM Conference WHERE EXTRACT(YEAR FROM date_debut)=2018)
 
-
+	(SELECT idPersonnel,idPublication FROM PersonnelPublie WHERE idPublication IN(SELECT idPublication FROM Publication 
+	WHERE annee_publication=2018))
+	
+	(SELECT idScientifique,idDOctorant FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SELECT idDoctorant FROM Doctorant WHERE EXTRACT(YEAR FROM date_soutenance)=2018))
 
 --16.   Le nom et le prénom du scientifique qui n’a jamais publié, encadré, ni participé à des projets.
 
