@@ -74,19 +74,6 @@ EXCEPT
 SELECT idScientifique FROM ScientifiqueEncadreDoctorant 
 WHERE (idDoctorant IN (SELECT idDoctorant FROM Doctorant WHERE (date_soutenance >= CURRENT_DATE)))
 
---19.   Pour chaque scientifique, le nombre de ses collaborateur externes
-, COUNT(*) as NbCollab
-
-
-SELECT s.idScientifique,COUNT(p.idAuteur) as NbCollab
-FROM Scientifique s
-JOIN (SELECT idPersonnel, idAuteur 
-FROM PersonnelPublie
-JOIN AuteurLaboPublie
-ON idPublication=idPubli) as p
-ON p.idPersonnel=s.idScientifique
-GROUP BY idScientifique
-
 
 --20.   Les scientifiques qui encadrent mais n’ont pas de doctorants ayant déjà soutenu
 
@@ -205,3 +192,15 @@ LEFT JOIN (SELECT idScientifique, COUNT(*) as NbProjet FROM ScientifiqueParticip
 ON s.idScientifique=pr.idScientifique
 LEFT JOIN (SELECT idScientifique, COUNT(*) as NbDocts FROM ScientifiqueEncadreDoctorant GROUP BY idScientifique) as d
 ON s.idScientifique=d.idScientifique
+
+--19.   Pour chaque scientifique, le nombre de ses collaborateur externes
+
+
+SELECT s.idScientifique,COUNT(p.idAuteur) as NbCollab
+FROM Scientifique s
+JOIN (SELECT idPersonnel, idAuteur 
+FROM PersonnelPublie
+JOIN AuteurLaboPublie
+ON idPublication=idPubli) as p
+ON p.idPersonnel=s.idScientifique
+GROUP BY idScientifique
