@@ -166,6 +166,8 @@ ON p.Nom=a.NomLabo
 
 --22.   Les doctorants qui ont un seul encadrant et qui ont toujours des publications qu’avec leur encadrant
 
+
+
 --23.   Les doctorants qui ont plus de 3 encadrants
 
 SELECT idDoctorant FROM ScientifiqueEncadreDoctorant GROUP BY idDoctorant HAVING COUNT(idScientifique)>3
