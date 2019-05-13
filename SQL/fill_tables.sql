@@ -1,7 +1,7 @@
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
-VALUES ('rterte', 'ertertre', 'ertertre', '2019-04-03', '2019-04-18', 1);
+VALUES ('rterte', 'ertertre', 'ertertre', '1978-04-03', '2017-04-18', 1);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
-VALUES  ('Orange', 'Pomme', '5 avenue du rolt', '2020-04-03', '2019-04-18', 118518);
+VALUES  ('Orange', 'Pomme', '5 avenue du rolt', '1989-04-03', '2016-04-18', 118518);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
 VALUES ('Fastaspack', 'Pol', '85 avenue du grolsh', '1964-05-21', '1992-01-04', 121314);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
@@ -14,9 +14,16 @@ INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_rec
 VALUES ('Einstein', 'Albert', '12 Avenue de Zurich', '1801-10-19', '1819-06-14', 999);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
 VALUES ('Kine', 'Miss', 'Rue', '1313-10-13', '1393-01-13', 13);
+INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
+VALUES ('Boule', 'Boojton', 'Royaume de Belgique', '1888-08-08', '2016-08-10', 8);
+INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
+VALUES ('Bill', 'Sacré', 'Royaume de Belgique, niche', '1888-08-08', '2016-08-09', 88);
+INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
+VALUES ('Nom', 'Prenom', 'Adresse', '1990-02-04', '2017-04-04', 6);
+INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
+VALUES ('Dupont', 'Martin', 'SDF', '1985-02-04', '2016-04-04', 66);
 
-INSERT INTO `Scientifique` (`idScientifique`, `Grade`)
-VALUES (1,3);
+
 INSERT INTO `Scientifique` (`idScientifique`, `Grade`)
 VALUES (118518,2);
 INSERT INTO `Scientifique` (`idScientifique`, `Grade`)
@@ -27,6 +34,8 @@ INSERT INTO `Scientifique` (`idScientifique`, `Grade`)
 VALUES (999,1);
 INSERT INTO `Scientifique` (`idScientifique`, `Grade`)
 VALUES (13,0);
+INSERT INTO `Scientifique` (`idScientifique`, `Grade`)
+VALUES (6,8);
 
 INSERT INTO `Doctorant` (`idDoctorant`, `date_soutenance`)
 VALUES (121314,'1938-12-01');
@@ -34,6 +43,12 @@ INSERT INTO `Doctorant` (`idDoctorant`, `date_soutenance`)
 VALUES (151617,'2012-12-25');
 INSERT INTO `Doctorant` (`idDoctorant`, `date_soutenance`)
 VALUES (1,'2019-06-10');
+INSERT INTO `Doctorant` (`idDoctorant`, `date_soutenance`)
+VALUES (8,'2018-06-10');
+INSERT INTO `Doctorant` (`idDoctorant`, `date_soutenance`)
+VALUES (88,'2018-12-10');
+INSERT INTO `Doctorant` (`idDoctorant`, `date_soutenance`)
+VALUES (66,'2017-10-04');
 
 INSERT INTO `ScientifiqueEncadreDoctorant` (`idScientifique`,`idDoctorant`)
 VALUES (118518, 151617);
@@ -41,6 +56,16 @@ INSERT INTO `ScientifiqueEncadreDoctorant` (`idScientifique`,`idDoctorant`)
 VALUES (10, 121314);
 INSERT INTO `ScientifiqueEncadreDoctorant` (`idScientifique`,`idDoctorant`)
 VALUES (10, 1);
+INSERT INTO `ScientifiqueEncadreDoctorant` (`idScientifique`,`idDoctorant`)
+VALUES (118518, 1);
+INSERT INTO `ScientifiqueEncadreDoctorant` (`idScientifique`,`idDoctorant`)
+VALUES (7, 1);
+INSERT INTO `ScientifiqueEncadreDoctorant` (`idScientifique`,`idDoctorant`)
+VALUES (6, 1);
+INSERT INTO `ScientifiqueEncadreDoctorant` (`idScientifique`,`idDoctorant`)
+VALUES (6, 66);
+INSERT INTO `ScientifiqueEncadreDoctorant` (`idScientifique`,`idDoctorant`)
+VALUES (6, 88);
 
 INSERT INTO `JPO` (`idJPO`,`date_debut`,`date_fin`)
 VALUES (12,'2019-03-25','2019-03-27');
@@ -68,6 +93,10 @@ INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idP
 VALUES (8, 'L''inspiration dans l''infiltration : Récit', '2000-11-12', '2000-10-10',007);
 INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
 VALUES (18, 'Demain ne meurt pas aujourd''hui : TED talk', '2001-09-31', '2001-10-31',007);
+INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
+VALUES (28, 'La référence, la conférence youpi', '2018-11-12', '2018-10-10',999);
+INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
+VALUES (38, 'Cours de torture pour débutants', '2018-09-31', '2018-10-31',007);
         
 INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
 VALUES ('Sciences & Rhododendrons','Costume');
@@ -90,7 +119,7 @@ VALUES (42,'Recherches sur les msobzd',2001,'Msobzd & Roeqifh',50000);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
 VALUES (8,'Recherches sur les Sproutznitch',2000,'Sproutznitch Magazine',3);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (10,'Recherches sur lard des mets',2010,'Miamgazine',2);
+VALUES (10,'Recherches sur lard des mets',2018,'Miamgazine',2);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
 VALUES (111,'Recherches sur les laits laids',2005,'Meuhgazine',1250);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
@@ -108,6 +137,11 @@ INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
 VALUES (10,10);
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
 VALUES (100,10);
+INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
+VALUES (10,999);
+INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
+VALUES (111,121314);
+
 
 INSERT INTO `Labo_externe` (`Nom`,`Pays`)
 VALUES ('NotreDamedeFeu', 'Paris');
@@ -136,7 +170,7 @@ VALUES ('Meilleur projet du meilleur quinôme','MPMQ',2019,1000,0,1,10);
 INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`,`Cout_global`,`Budget_alloue`,`ScientifiquePorteur`)
 VALUES ('Parce que c''est notre projet','PQCNP',2019,1000,4,5,118518);
 INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`,`Cout_global`,`Budget_alloue`,`ScientifiquePorteur`)
-VALUES ('Amen.','JC',0,1000,12,54,1);
+VALUES ('Amen.','JC',0,1000,12,54,6);
 INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`,`Cout_global`,`Budget_alloue`,`ScientifiquePorteur`)
 VALUES ('Vivement Dimanche Matin','VDM',1950,5,20000,1,118518);
 
