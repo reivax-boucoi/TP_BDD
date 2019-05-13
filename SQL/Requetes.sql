@@ -96,12 +96,16 @@ WHERE
     ScientifiqueEncadreDoctorant.idScientifique IS NULL; 
 
 --15.   Pour une année donnée, on veut récupérer le nombre de publications, de conférences, et de  doctorants de chaque scientifique
-(SELECT idPresident,idConference FROM Conference WHERE EXTRACT(YEAR FROM date_debut)=2018)
+SELECT s.idScientifique, NbPubli,NbConf,NbDocts
+FROM(SELECT idScientifique FROM Scientifique) as s
+LEFT JOIN (SELECT idPresident,COUNT(*) as NbConf FROM Conference WHERE EXTRACT(YEAR FROM date_debut)=2018 GROUP BY idPresident) as c
+ON s.idScientifique=c.idPresident
 
-	(SELECT idPersonnel,idPublication FROM PersonnelPublie WHERE idPublication IN(SELECT idPublication FROM Publication 
-	WHERE annee_publication=2018))
-	
-	(SELECT idScientifique,idDOctorant FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SELECT idDoctorant FROM Doctorant WHERE EXTRACT(YEAR FROM date_soutenance)=2018))
+LEFT JOIN (SELECT idPersonnel,COUNT(*) as NbPubli FROM PersonnelPublie WHERE idPublication IN(SELECT idPublication FROM Publication	WHERE annee_publication=2018) GROUP BY idPersonnel) as p
+ON s.idScientifique=p.idPersonnel
+
+LEFT JOIN	(SELECT idScientifique,COUNT(*) as NbDocts FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SELECT idDoctorant FROM Doctorant WHERE EXTRACT(YEAR FROM date_soutenance)=2018)GROUP BY idScientifique) as d
+ON s.idScientifique=d.idScientifique
 
 --16.   Le nom et le prénom du scientifique qui n’a jamais publié, encadré, ni participé à des projets.
 
@@ -151,11 +155,14 @@ GROUP BY idScientifique
 
 --20.   Les scientifiques qui encadrent mais n’ont pas de doctorants ayant déjà soutenu
 
-
+SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SELECT idDoctorant FROM Doctorant WHERE (date_soutenance > CURRENT_DATE))
 
 --21.   Le nombre de collaborateurs par pays
---TODO
-SELECT idAuteur FROM Auteur WHERE (NomLabo = (SELECT Nom FROM Labo_Externe WHERE 
+
+SELECT p.Pays, COUNT(idAuteur)
+FROM(SELECT Pays,Nom  FROM Labo_Externe as p) 
+LEFT JOIN(SELECT idAuteur, NomLabo FROM Auteur as a)
+ON p.Nom=a.NomLabo
 
 --22.   Les doctorants qui ont un seul encadrant et qui ont toujours des publications qu’avec leur encadrant
 
