@@ -17,3 +17,9 @@ Des publications sont produites par des scientifiques et/ou des doctorants. Parm
 Les scientifiques peuvent participer à des projets de recherches. Chaque projet de recherche du LAAS a un porteur parmi les scientifiques. Un projet est caractérisé par un titre, un acronyme, année de début, durée,  la liste des partenaires participants,  son coût global, et le budget alloué au LAAS.  Chaque partenaire participant est caractérisé par un nom et le pays.
 
 Des évènements sont organisés par le laboratoire. On distingue les journées portes ouvertes et les conférences. Les deux évènements sont caractérisés par une date de début et de fin. Les conférences sont organisées par des présidents qui sont des scientifiques du laboratoire. Pour chaque conférence, on connaît le nombre d’inscriptions (i.e., le nombre de participants). Les journées portes ouvertes sont à elles organisées par le laboratoire et plusieurs personnels du laboratoire y participent.
+
+ ___
+|^_^|
+\ U /
+  n
+ / \
