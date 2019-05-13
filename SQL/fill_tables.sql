@@ -33,7 +33,7 @@ VALUES (121314,'1938-12-01');
 INSERT INTO `Doctorant` (`idDoctorant`, `date_soutenance`)
 VALUES (151617,'2012-12-25');
 INSERT INTO `Doctorant` (`idDoctorant`, `date_soutenance`)
-VALUES (1,'2019-04-10');
+VALUES (1,'2019-06-10');
 
 INSERT INTO `ScientifiqueEncadreDoctorant` (`idScientifique`,`idDoctorant`)
 VALUES (118518, 151617);
@@ -106,41 +106,57 @@ INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
 VALUES (111,10);
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
 VALUES (10,10);
+INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
+VALUES (100,10);
 
 INSERT INTO `Labo_externe` (`Nom`,`Pays`)
 VALUES ('NotreDamedeFeu', 'Paris');
 INSERT INTO `Labo_externe` (`Nom`,`Pays`)
 VALUES ('Laas', 'MonPaïs');
+INSERT INTO `Labo_externe` (`Nom`,`Pays`)
+VALUES ('cdelalitterature', 'Estonie');
+INSERT INTO `Labo_externe` (`Nom`,`Pays`)
+VALUES ('Chambre', 'URSS');
 
 INSERT INTO `Auteur` (`idAuteur`, `Nom`, `Prenom`, `NomLabo`)
 VALUES (1, 'Hugo', 'Viktor', 'NotreDamedeFeu');
+INSERT INTO `Auteur` (`idAuteur`, `Nom`, `Prenom`, `NomLabo`)
+VALUES (2, 'Sade', 'Le Marquis', 'Cdelalitterature');
+INSERT INTO `Auteur` (`idAuteur`, `Nom`, `Prenom`, `NomLabo`)
+VALUES (3, 'Apollinaire', 'Kev', 'Chambre');
 
 INSERT INTO `AuteurLaboPublie` (`idAuteur`, `idPubli`)
 VALUES (1,100);
+INSERT INTO `AuteurLaboPublie` (`idAuteur`, `idPubli`)
+VALUES (2,42);
 
-INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
-VALUES (100,'Recherches sur la pauvreté',1848,'Magzérable',1250); 
+
+INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`,`Cout_global`,`Budget_alloue`,`ScientifiquePorteur`)
+VALUES ('Meilleur projet du meilleur quinôme','MPMQ',2019,1000,0,1,10);
+INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`,`Cout_global`,`Budget_alloue`,`ScientifiquePorteur`)
+VALUES ('Parce que c''est notre projet','PQCNP',2019,1000,4,5,118518);
+INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`,`Cout_global`,`Budget_alloue`,`ScientifiquePorteur`)
+VALUES ('Amen.','JC',0,1000,12,54,1);
+INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`,`Cout_global`,`Budget_alloue`,`ScientifiquePorteur`)
+VALUES ('Vivement Dimanche Matin','VDM',1950,5,20000,1,118518);
+
+INSERT INTO `ScientifiqueParticipeProjet` (`TitreProjet`, `idScientifique`)
+VALUES ('Meilleur projet du meilleur quinôme',10);
+INSERT INTO `ScientifiqueParticipeProjet` (`TitreProjet`, `idScientifique`)
+VALUES ('Parce que c''est notre projet',118518);
+INSERT INTO `ScientifiqueParticipeProjet` (`TitreProjet`, `idScientifique`)
+VALUES ('Vivement Dimanche Matin',118518);
+
+INSERT INTO `Partenaire` (`idPartenaire`,`NomEntite`,`Pays`)
+VALUES (1212,'LeGrandMiam','France');
+INSERT INTO `Partenaire` (`idPartenaire`,`NomEntite`,`Pays`)
+VALUES (1213,'LeGrandMeaulnes','Espagne');
+INSERT INTO `Partenaire` (`idPartenaire`,`NomEntite`,`Pays`)
+VALUES (1214,'Parvenir','Suisse');
+
+INSERT INTO `PartenaireParticipeProjet` (`TitreProjet`,`idPartenaire`)
+VALUES ('Amen.',1212);
+INSERT INTO `PartenaireParticipeProjet` (`TitreProjet`,`idPartenaire`)
+VALUES ('Vivement Dimanche Matin',1214);
 
 --Tout ce qui précède a été testé et implémenté (et c'est vrai cette fois)
-
-
-INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`)
-VALUES (''
-
-INSERT INTO 
-VALUES (''
-
-INSERT INTO 
-VALUES (''
-
-INSERT INTO 
-VALUES (''
-
-INSERT INTO 
-VALUES (''
-
-INSERT INTO 
-VALUES (''
-
-INSERT INTO 
-VALUES (''
