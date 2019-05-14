@@ -76,7 +76,7 @@ SELECT idDoctorant FROM ScientifiqueEncadreDoctorant WHERE
 
 
 --24.   Les scientifiques qui ont plus de 3 doctorants qui ont débuté leur thèse il y a moins de 2 ans. TODO
-SELECT idDoctorant FROM ScientifiqueEncadreDoctorant GROUP BY (SELECT idPersonnel FROM Personnel p WHERE (p.date_recrutement BETWEEN "2017-05-13" AND CURRENT_DATE)
+SELECT idPersonnel FROM Personnel p WHERE ((EXTRACT(YEAR FROM p.Date_recrutement) >= (EXTRACT(YEAR FROM CURRENT_DATE))-2) OR (EXTRACT(YEAR FROM p.date_recrutement) < EXTRACT(YEAR FROM CURRENT_DATE)))
 
 --p.date_recrutement BETWEEN SUBDATE(CURRENT_DATE,INTERVAL "02-00" YEAR_MONTH) AND CURRENT_DATE))
 
@@ -86,12 +86,39 @@ idDoctorant HAVING COUNT(idScientifique)>3
 
 --26.   Les scientifiques qui recrutent au moins un doctorant par année
 
+
+
+SELECT sd.idScientifique, COUNT(sd.DateDoc) as cntDoc, EXTRACT( YEAR FROM p.Date_recrutement) as DateSci
+FROM (SELECT idPersonnel, Date_recrutement FROM Personnel) as p
+JOIN 
+(SELECT DISTINCT s.idScientifique, EXTRACT(YEAR FROM d.Date_recrutement) as DateDoc
+FROM 
+(SELECT idScientifique, idDoctorant FROM ScientifiqueEncadreDoctorant) as s 
+JOIN 
+(SELECT idPersonnel,Date_recrutement FROM Personnel WHERE idPersonnel IN (SELECT idDoctorant FROM Doctorant)) as d 
+ON s.idDoctorant=d.idPersonnel )as sd
+ON sd.idScientifique=p.idPersonnel
+GROUP BY idScientifique
+
+
+
 --27.   Les pays qui sont présents à tous les projets
 
 --28.   Les scientifiques qui publient que dans des conférences de classe A
 
+--non testable sous mysql
+SELECT idScientifique FROM Scientifique WHERE idScientifique IN(
+(SELECT idPersonnel FROM PersonnelPublie WHERE idPublication IN (SELECT idPublication FROM Publication WHERE nom_conference_journal IN (SELECT nom_conference_journal FROM TypeConf WHERE classe_conference='A')))
+EXCEPT
+(SELECT idPersonnel FROM PersonnelPublie WHERE idPublication IN (SELECT idPublication FROM Publication WHERE nom_conference_journal IN (SELECT nom_conference_journal FROM TypeConf WHERE classe_conference!='A'))))
+
+
 --29.   Les scientifiques qui n’ont jamais publié dans des conférences de classe A
 
+--non testable sous mysql
+(SELECT idScientifique FROM Scientifique)
+EXCEPT
+(SELECT idPersonnel FROM PersonnelPublie WHERE idPublication IN (SELECT idPublication FROM Publication WHERE nom_conference_journal IN (SELECT nom_conference_journal FROM TypeConf WHERE classe_conference='A')))
 
 -- REQUETES TESTEES ---------------------------------------------------------------
 
@@ -158,6 +185,7 @@ WHERE (j1.idPersonnel=j3.idPersonnel AND j2.idJPO=j3.idJPO)))
 SELECT Nom_conf,EXTRACT(YEAR FROM date_debut) as annee FROM Conference WHERE idPresident=7
 
 --15.   Pour une année donnée, on veut récupérer le nombre de publications, de conférences, et de  doctorants de chaque scientifique
+
 SELECT s.idScientifique, NbPubli,NbConf,NbDocts
 FROM(SELECT idScientifique FROM Scientifique) as s
 LEFT JOIN (SELECT idPresident,COUNT(*) as NbConf FROM Conference WHERE EXTRACT(YEAR FROM date_debut)=2018 GROUP BY idPresident) as c
