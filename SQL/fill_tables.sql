@@ -143,9 +143,9 @@ INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_con
 VALUES (3,'Recherches sur le brassage',2018,'Beergazine',20); 
 
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
-VALUES (9,1);
+VALUES (9,8);
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
-VALUES (42,1);
+VALUES (42,8);
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
 VALUES (8,007);
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
