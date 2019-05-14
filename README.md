@@ -12,8 +12,10 @@ TODO
 - [x] Traduire le diagramme de classe vers le modèle relationnel  (`relation_diagram_phpmyadmin.png`)
 - [x] Normalisation de schéma relationnel obtenu 
 - [x] Créer les tables qui correspondent au schéma relationnel normalisé  (`./SQL/create_alter_tables.sql`)
-- [ ] Remplir les tables crées par un jeux de données significatif (`./SQL/fill_tables.sql`) 
+- [x] Remplir les tables crées par un jeux de données significatif (`./SQL/fill_tables.sql`) 
 - [ ] Ecrire les requêtes (`./SQL/Requetes.sql`)
 - [ ] Tester les requêtes (`./SQL/Requetes.sql`)
 
 ISSUES
+
+UNION and INTERSECT don't seem to work in MYSQL
