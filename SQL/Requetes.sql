@@ -67,24 +67,13 @@ SELECT idScientifique FROM ScientifiqueEncadreDoctorant
 WHERE (idDoctorant IN (SELECT idDoctorant FROM Doctorant WHERE (date_soutenance >= CURRENT_DATE)))
 
 
---20.   Les scientifiques qui encadrent mais n’ont pas de doctorants ayant déjà soutenu
 
-SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SELECT idDoctorant FROM Doctorant WHERE (date_soutenance > CURRENT_DATE))
-
---21.   Le nombre de collaborateurs par pays
-
-SELECT p.Pays, COUNT(idAuteur)
-FROM(SELECT Pays,Nom  FROM Labo_Externe as p) 
-LEFT JOIN(SELECT idAuteur, NomLabo FROM Auteur as a)
-ON p.Nom=a.NomLabo
 
 --22.   Les doctorants qui ont un seul encadrant et qui ont toujours des publications qu’avec leur encadrant
 
 SELECT idDoctorant FROM ScientifiqueEncadreDoctorant WHERE 
 
---23.   Les doctorants qui ont plus de 3 encadrants
 
-SELECT idDoctorant FROM ScientifiqueEncadreDoctorant GROUP BY idDoctorant HAVING COUNT(idScientifique)>3
 
 --24.   Les scientifiques qui ont plus de 3 doctorants qui ont débuté leur thèse il y a moins de 2 ans. TODO
 SELECT idDoctorant FROM ScientifiqueEncadreDoctorant GROUP BY (SELECT idPersonnel FROM Personnel p WHERE (p.date_recrutement BETWEEN "2017-05-13" AND CURRENT_DATE)
@@ -102,10 +91,6 @@ idDoctorant HAVING COUNT(idScientifique)>3
 --28.   Les scientifiques qui publient que dans des conférences de classe A
 
 --29.   Les scientifiques qui n’ont jamais publié dans des conférences de classe A
-
---30.   Le nombre de conférences de classe A organisées par le laboratoire par année
-
---31.   L’établissement d’enseignement ayant le plus grand nombre d’enseignant chercheur
 
 
 -- REQUETES TESTEES ---------------------------------------------------------------
@@ -146,7 +131,7 @@ SELECT idPersonnel,COUNT(idPublication) as cntPubli FROM PersonnelPublie WHERE i
 
 --7.     Le nombre de doctorants du laboratoire
 
-SELECT COUNT(*) nbDoctorants FROM Doctorant;
+SELECT COUNT(*) as nbDoctorants FROM Doctorant;
 
 --8.     Le nombre de scientifiques du laboratoire
 
@@ -206,3 +191,34 @@ JOIN AuteurLaboPublie
 ON idPublication=idPubli) as p
 ON p.idPersonnel=s.idScientifique
 GROUP BY idScientifique
+
+--20.   Les scientifiques qui encadrent mais n’ont pas de doctorants ayant déjà soutenu
+
+SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SELECT idDoctorant FROM Doctorant WHERE (date_soutenance > CURRENT_DATE))
+
+
+--21.   Le nombre de collaborateurs par pays
+
+SELECT pn.Pays, COUNT(idAuteur)
+FROM(SELECT Pays,Nom  FROM Labo_externe) as pn
+LEFT JOIN(SELECT idAuteur, NomLabo FROM Auteur) as a
+ON pn.Nom=a.NomLabo
+GROUP BY pn.Pays
+
+--23.   Les doctorants qui ont plus de 3 encadrants
+
+SELECT idDoctorant FROM ScientifiqueEncadreDoctorant GROUP BY idDoctorant HAVING COUNT(idScientifique)>3
+
+--30.   Le nombre de conférences de classe A organisées par le laboratoire par année
+
+SELECT cd.annee, COUNT(cd.Nom_conf) as NbConf FROM
+(SELECT Nom_conf,EXTRACT(YEAR FROM date_debut) as annee FROM Conference) as cd
+LEFT JOIN
+(SELECT nom_conference_journal FROM TypeConf WHERE classe_conference='A') as na
+ON na.nom_conference_journal=cd.Nom_conf
+GROUP BY cd.annee
+
+--31.   L’établissement d’enseignement ayant le plus grand nombre d’enseignant chercheur
+SELECT ce.idEtablissement
+ FROM(SELECT c.idEtablissement,max(cntEnseignants)
+FROM (SELECT idEtablissement,COUNT(*) as cntEnseignants FROM Enseignant_chercheur GROUP BY idEtablissement)as c)as ce

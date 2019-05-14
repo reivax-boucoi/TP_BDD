@@ -61,15 +61,15 @@ CREATE TABLE `Publication` (
 	`idPublication` int NOT NULL,
 	`titre` varchar(255) NOT NULL,
 	`annee_publication` int NOT NULL,
-	`nom_conference/journal` varchar(255) NOT NULL,
+	`nom_conference_journal` varchar(255) NOT NULL,
 	`nb_pages` int NOT NULL,
 	PRIMARY KEY (`idPublication`)
 );
 
 CREATE TABLE `TypeConf`(
-	`nom_conference/journal` varchar(255) NOT NULL,
+	`nom_conference_journal` varchar(255) NOT NULL,
 	`classe_conference` varchar(255) NOT NULL,
-	PRIMARY KEY (`nom_conference/journal`)
+	PRIMARY KEY (`nom_conference_journal`)
 );
 
 CREATE TABLE `Labo_externe` (
@@ -166,4 +166,4 @@ ALTER TABLE `PersonnelParticipeJPO` ADD CONSTRAINT `PersonnelParticipeJPO_fk0` F
 
 ALTER TABLE `PersonnelParticipeJPO` ADD CONSTRAINT `PersonnelParticipeJPO_fk1` FOREIGN KEY (`idJPO`) REFERENCES `JPO`(`idJPO`);
 
-ALTER TABLE `Publication` ADD CONSTRAINT `Publication_fk0` FOREIGN KEY (`nom_conference/journal`) REFERENCES `TypeConf`(`nom_conference/journal`);
+ALTER TABLE `Publication` ADD CONSTRAINT `Publication_fk0` FOREIGN KEY (`nom_conference_journal`) REFERENCES `TypeConf`(`nom_conference_journal`);

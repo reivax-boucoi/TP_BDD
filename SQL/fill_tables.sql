@@ -106,40 +106,40 @@ VALUES (28, 'La référence, la conférence youpi', '2018-11-12', '2018-10-10',9
 INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
 VALUES (38, 'Cours de torture pour débutants', '2018-09-31', '2018-10-31',007);
         
-INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
 VALUES ('Sciences & Rhododendrons','A');
-INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
 VALUES ('Msobzd & Roeqifh','A');
-INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
 VALUES ('Sproutznitch Magazine','B');
-INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
 VALUES ('Miamgazine','A');
-INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
 VALUES ('Meuhgazine','B');
-INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
 VALUES ('Magzérable','A'); 
-INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
 VALUES ('Memegazine','A'); 
-INSERT INTO `TypeConf` (`nom_conference/journal`,`classe_conference`)
+INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
 VALUES ('Beergazine','A'); 
 
 
 
-INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference_journal`, `nb_pages`)
 VALUES (9,'Recherches sur les rhododendrons',2019,'Sciences & Rhododendrons',25000);
-INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference_journal`, `nb_pages`)
 VALUES (42,'Recherches sur les msobzd',2018,'Msobzd & Roeqifh',50000);
-INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference_journal`, `nb_pages`)
 VALUES (8,'Recherches sur les Sproutznitch',2019,'Sproutznitch Magazine',3);
-INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference_journal`, `nb_pages`)
 VALUES (10,'Recherches sur lard des mets',2018,'Miamgazine',2);
-INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference_journal`, `nb_pages`)
 VALUES (111,'Recherches sur les laits laids',2018,'Meuhgazine',1250);
-INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference_journal`, `nb_pages`)
 VALUES (100,'Recherches sur la pauvreté',2019,'Magzérable',1848); 
-INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference_journal`, `nb_pages`)
 VALUES (2,'Recherches sur les memes',2018,'Memegazine',5); 
-INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference/journal`, `nb_pages`)
+INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference_journal`, `nb_pages`)
 VALUES (3,'Recherches sur le brassage',2018,'Beergazine',20); 
 
 INSERT INTO `PersonnelPublie` (`idPublication`, `idPersonnel`)
@@ -223,4 +223,3 @@ VALUES ('Parce que c''est notre projet',1212);
 INSERT INTO `PartenaireParticipeProjet` (`TitreProjet`,`idPartenaire`)
 VALUES ('Meilleur projet du meilleur quinôme',1212);
 
---Tout ce qui précède a été testé et implémenté (et c'est vrai cette fois)

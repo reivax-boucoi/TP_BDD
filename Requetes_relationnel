@@ -33,30 +33,34 @@ NbCOllab = AGGREGAT(CollaborateursReduit,idPersonnel,COUNT(idPersonnel))
 --5.     Pour chaque doctorant, on souhaiterait récupérer le nombre de ses publications
 
 
-Select(Doctorant,
-
-SELECT idPersonnel,COUNT(idPublication) as cntPubli FROM PersonnelPublie WHERE idPersonnel IN (SELECT idDoctorant FROM Doctorant) GROUP BY idPersonnel
+NBPublicationsParPersonnel = Agregat(PersonnelPublie,idPersonnel,COUNT(idPublication))
+NBPublicationsParDoctorant = Join(NBPublicationsParPersonnel,Doctorant,idDoctorant=idPersonnel)
 
 
 --6.     Le nombre de publications par année de tout le laboratoire
 
-(SELECT annee_publication,COUNT(*) as cntPubli FROM Publication GROUP BY annee_publication)
+NBPublicationsParAnnee = Agregat(Publication,annee_publication,COUNT(*)as NbPublis)
 
 --7.     Le nombre de doctorants du laboratoire
 
-SELECT COUNT(*) nbDoctorants FROM Doctorant;
+NbDoctorants = Agregat(Doctorant,COUNT(*))
+
 
 --8.     Le nombre de scientifiques du laboratoire
 
-SELECT COUNT(*)FROM Scientifique;
+NbScientifiques = Agregat(Scientifique,COUNT(*))
+
 
 --9.     Le nombre d’enseignants chercheurs par établissement d’enseignement
 
-(SELECT idEtablissement,COUNT(*) as cntEnseignants FROM Enseignant_chercheur GROUP BY idEtablissement)
+NbEnseignantsChercheurs = Agregat(Enseignant_chercheur,idEtablissement,COUNT(*) as cntEnseignants)
+
 
 --10.   Le nombre de publications par scientifique/doctorant
 
-(SELECT idPersonnel,COUNT(idPublication) as cntPubli FROM PersonnelPublie GROUP BY idPersonnel)
+NbPubliParScientDoctorant = Agregat(PersonnelPublie,idPersonnel,COUNT(idPublication))
+
+
 
 --11.   Les personnes ayant participé à toutes les journées portes ouvertes
 
@@ -66,6 +70,8 @@ WHERE NOT EXISTS(SELECT * FROM PersonnelParticipeJPO j3)
 WHERE (j1.idPersonnel=j3.idPersonnel AND j2.idJPO=j3.idJPO)
 
 --12.   Les personnes qui n’ont jamais participé aux journées portes ouvertes
+
+PersonnesNonParticipantes = Project(Personnel,idPersonnel) - Project(PersonnelParticipeJPO,idPersonnel)
 
 (SELECT idPersonnel from Personnel)
 EXCEPT
@@ -84,9 +90,9 @@ SELECT Nom_conf,EXTRACT(YEAR FROM date_debut) FROM Conference WHERE idPresident=
 
 --14.   Le nom et le prénom du scientifique qui n’a jamais encadré
 
-(SELECT idScientifique from Scientifique)
-EXCEPT
-(SELECT idScientifique from ScientifiqueEncadreDoctorant)
+ScientifiqueNonEncadrant = Project(Scientifique,idScientifique) - Project(ScientifiqueEncadreDoctorant,idScientifique)
+
+NomEtPrenomScient = Project(Join(ScientifiqueNonEncadrant,Personnel,idPersonnel = idScientifique),Nom,Prenom)
 
 
 --mysql
