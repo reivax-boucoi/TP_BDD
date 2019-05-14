@@ -13,14 +13,6 @@ INTERSECT
 
 
 
---5.     Pour chaque doctorant, on souhaiterait récupérer le nombre de ses publications
-
-SELECT d.idDoctorant,p.cntPubli
-FROM (SELECT idPersonnel,COUNT(idPublication) as cntPubli FROM PersonnelPublie)as p
-RIGHT JOIN (SELECT idDoctorant FROM Doctorant) as d
-ON d.idDoctorant=p.idPersonnel
-
-
 
 --12.   Les personnes qui n’ont jamais participé aux journées portes ouvertes
 
@@ -136,10 +128,15 @@ WHERE (idPublication IN
 		WHERE idPersonnel=10)
 	) AND idPersonnel!=10)
 	
+
+--5.     Pour chaque doctorant, on souhaiterait récupérer le nombre de ses publications
+
+SELECT idPersonnel,COUNT(idPublication) as cntPubli FROM PersonnelPublie WHERE idPersonnel IN (SELECT idDoctorant FROM Doctorant) GROUP BY idPersonnel;
+
 	
 --6.     Le nombre de publications par année de tout le laboratoire
 
-(SELECT annee_publication,COUNT(*) as cntPubli FROM Publication GROUP BY annee_publication)
+(SELECT annee_publication,COUNT(*) as cntPubli FROM Publication GROUP BY annee_publication);
 
 
 --7.     Le nombre de doctorants du laboratoire

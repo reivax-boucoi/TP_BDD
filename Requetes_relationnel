@@ -1,13 +1,15 @@
 --1.     Le nom et les grades des encadrants d’un doctorant donné
-Project(Join(Personnel,Project(Select(ScientifiqueEncadreDoctorant,idDoctorant=1),idScientifique),idPersonnel=idScientifique),Nom,Prenom)
+ScientifiqueEncadrant = Project(Select(ScientifiqueEncadreDoctorant,idDoctorant=1),idScientifique)
+NomsEtGradesEncadrants = Project(Join(Personnel,ScientifiqueEncadrant,idPersonnel=idScientifique),Nom,Prenom)
 
 --2.     Les pays avec qui un scientifique donné collabore
-
-Project(JOIN(Project(Join(Project(Select(PersonnelPublie,idPersonnel=1),idPublication),AuteurLaboPublie,idPubli=idPublication),idAuteur),Auteur,NomLabo=Nom),Pays)
+Personnedonnee = Select(PersonnelPublie,idPersonnel=1)
+PublicationDonnee = Project(Join(Project(Personnedonnee,idPublication),idPublication)
+AuteurPubli = Project(Join(PublicationDonnee,AuteurLaboPublie,idPubli=idPublication),idAuteur)
+PaysPourCollaboration = Project(JOIN(AuteurPubli,Auteur,NomLabo=Nom),Pays)
 
 
 --3.     Les noms et les pays des auteurs collaborateurs d’un scientifique donné en 2016
-
 
 
 PersonneDonnee = Select(PersonnelPublie,idPersonnel=1)
@@ -30,9 +32,11 @@ NbCOllab = AGGREGAT(CollaborateursReduit,idPersonnel,COUNT(idPersonnel))
 
 --5.     Pour chaque doctorant, on souhaiterait récupérer le nombre de ses publications
 
-SELECT idPersonnel, cntPubli FROM 
-(SELECT idPersonnel,COUNT(idPublication) as cntPubli FROM PersonnelPublie GROUP BY idPersonnel),
-(SELECT idDoctorant FROM Doctorant) WHERE idDoctorant=idPersonnel;
+
+Select(Doctorant,
+
+SELECT idPersonnel,COUNT(idPublication) as cntPubli FROM PersonnelPublie WHERE idPersonnel IN (SELECT idDoctorant FROM Doctorant) GROUP BY idPersonnel
+
 
 --6.     Le nombre de publications par année de tout le laboratoire
 
