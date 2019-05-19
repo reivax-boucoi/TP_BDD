@@ -243,13 +243,6 @@ GROUP BY idScientifique
 
 SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SELECT idDoctorant FROM Doctorant WHERE (date_soutenance > CURRENT_DATE))
 
-
---21.   Le nombre de collaborateurs par pays
-=======
---20.   Les scientifiques qui encadrent mais n’ont pas de doctorants ayant déjà soutenu
-
-SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SELECT idDoctorant FROM Doctorant WHERE (date_soutenance > CURRENT_DATE))
-
 --21.   Le nombre de collaborateurs par pays
 
 SELECT p.Pays, COUNT(idAuteur)
@@ -270,8 +263,6 @@ SELECT idDoctorant FROM ScientifiqueEncadreDoctorant WHERE
 
 SELECT idDoctorant FROM ScientifiqueEncadreDoctorant GROUP BY idDoctorant HAVING COUNT(idScientifique)>3
 
-<<<<<<< HEAD
-=======
 --24.   Les scientifiques qui ont plus de 3 doctorants qui ont débuté leur thèse il y a moins de 2 ans. TODO
 SELECT idScientifique FROM ScientifiqueEncadreDoctorant
 GROUP BY (SELECT idPersonnel FROM Personnel p WHERE (p.Date_recrutement BETWEEN SUBDATE(CURRENT_DATE, INTERVAL 2 YEAR) AND CURRENT_DATE)
