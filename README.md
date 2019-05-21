@@ -18,6 +18,7 @@ TODO
 - [ ] Tester les requêtes SQL (`./SQL/Requetes.sql`)
 - [ ] Optional : migrate to use the provided DB
 - [ ] Faire le rapport  
+  
 ISSUES
 
 UNION and INTERSECT don't seem to work in MYSQL
