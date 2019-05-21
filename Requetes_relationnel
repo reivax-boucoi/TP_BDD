@@ -158,9 +158,17 @@ A VERIFIER, MADE BY TRINOMICS
 
 SELECT idDoctorant FROM ScientifiqueEncadreDoctorant WHERE 
 
-NbEncadrantParDoct=Agregat(ScientifiquEncadreDoctorant, idDoctorant, COUNT
-Doctorant1Encadrant=
+NbEncadrantParDoct=Agregat(ScientifiquEncadreDoctorant, idDoctorant, COUNT(idScientifique) as NbEncadrant)
+Doctorant1Encadrant=Select(NbEncadrantParDoct, NbEncadrant = 1)
+1EncadrEtEncadrant=Join(Doctorant1Encadrant as d1e, ScientifiqueEncadreDoctorant as sed, d1e.idDoctorant=sed.idDoctorant)
+--autre moyen plus court de faire ces trois lignes :
+--Doctorant1Encadrant=Project(Select(ScientifiqueEncadreDoctorant,HAVING COUNT(idScientifique)=1),idDoctorant)
 
+Doctorant_Publi_1Scientifique=Join(1EncadrEtEncadrant as 1eee, PersonnelPublie as ppubl, 1eee.idDoctorant=ppubl.idPersonnel)
+--A finir : extraire de Doctorant_Publi_1Scientifique la liste avec sci et publis associées et la liste avec doctorants et publis associées et join avec
+--condition que les publi soient identiques
+Doctorant_Publi_1Scientifique.publication=intersection entre Doctorant_Publi_1Scientifique.scientifique et PersonnelPublie
+PublicationAvecEncadrant=
 --23.   Les doctorants qui ont plus de 3 encadrants
 
 
