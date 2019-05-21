@@ -19,7 +19,7 @@ Repo de travail TP_BDD 3IMACS-AE
 - [ ] Optional : migrate to use the provided DB
 - [ ] Faire le rapport  (`./Rapport/main.tex`)
 - [ ] Mettre à jour les images des diagrammes relationnels et UML avec la nouvelle structure révisée  
-- [ ] Ajouter les screenshots manquants des résultats des requêtes validées (`./Rapport/screenshots/r*.png`)
+- [ ] Ajouter les screenshots manquants des résultats des requêtes validées (`./Rapport/screenshots/r*.PNG`)
   
 ### ISSUES
 
