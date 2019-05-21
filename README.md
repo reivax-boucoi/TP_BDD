@@ -18,7 +18,7 @@ Repo de travail TP_BDD 3IMACS-AE
 - [ ] Tester les requêtes SQL (`./SQL/Requetes.sql`)
 - [ ] Optional : migrate to use the provided DB
 - [ ] Faire le rapport  
-- [ ] mettre à jour les images des diagrammes relationnels et UML avec la nouvelle structure révisée  
+- [ ] Mettre à jour les images des diagrammes relationnels et UML avec la nouvelle structure révisée  
 
   
 ### ISSUES
