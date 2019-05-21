@@ -52,40 +52,17 @@ HAVING COUNT(idScientifique)>3
 
 --25.   Les doctorants qui ont au moins une publication chaque année depuis leur recrutement
 
---26.   Les scientifiques qui recrutent au moins un doctorant par année
 
-
-
-SELECT sd.idScientifique, COUNT(sd.DateDoc) as NbDocs, AVG(EXTRACT( YEAR FROM p.Date_recrutement)) as DateSci
-FROM 
-
-(SELECT idPersonnel, Date_recrutement FROM Personnel) as p
-
-JOIN 
-
-(SELECT DISTINCT s.idScientifique, EXTRACT(YEAR FROM d.Date_recrutement) as DateDoc
-FROM 
-(SELECT idScientifique, idDoctorant FROM ScientifiqueEncadreDoctorant) as s 
-JOIN 
-(SELECT idPersonnel,Date_recrutement FROM Personnel WHERE idPersonnel IN (SELECT idDoctorant FROM Doctorant)) as d 
-ON s.idDoctorant=d.idPersonnel )as sd
-
-ON sd.idScientifique=p.idPersonnel
-GROUP BY sd.idScientifique
---GROUP BY sd.idScientifique
 
 
 --27.   Les pays qui sont présents à tous les projets
-SELECT Pays FROM Partenaire part1 WHERE part.idPartenaire IN(SELECT idPartenaire FROM PartenaireParticipeProjet)
-WHERE 
+
 	  
-SELECT * FROM Partenaire part1 WHERE NOT EXISTS(SELECT * FROM PartenaireParticipeProjet ppp WHERE NOT EXISTS(
+SELECT idPartenaire FROM Partenaire part1 WHERE NOT EXISTS(SELECT * FROM PartenaireParticipeProjet ppp WHERE NOT EXISTS(
 	SELECT * FROM Partenaire part2 WHERE part1.Pays=part2.Pays AND part2.idPartenaire=ppp.idPartenaire))
-WHERE
 
 --28.   Les scientifiques qui publient que dans des conférences de classe A
 
---non testable sous mysql
 SELECT idScientifique FROM Scientifique WHERE idScientifique IN(
 (SELECT idPersonnel FROM PersonnelPublie WHERE idPublication IN (SELECT idPublication FROM Publication WHERE nom_conference_journal IN (SELECT nom_conference_journal FROM TypeConf WHERE classe_conference='A')))
 EXCEPT
