@@ -13,8 +13,9 @@ TODO
 - [x] Normalisation de schéma relationnel obtenu 
 - [x] Créer les tables qui correspondent au schéma relationnel normalisé  (`./SQL/create_alter_tables.sql`)
 - [x] Remplir les tables crées par un jeux de données significatif (`./SQL/fill_tables.sql`) 
-- [ ] Ecrire les requêtes (`./SQL/Requetes.sql`)
-- [ ] Tester les requêtes (`./SQL/Requetes.sql`)
+- [ ] Ecrire les requêtes en algèbre relationnelle (`./Requetes_relationnel`)
+- [ ] Ecrire les requêtes SQL (`./SQL/Requetes.sql`)
+- [ ] Tester les requêtes SQL (`./SQL/Requetes.sql`)
 - [ ] Optional : migrate to use the provided DB
 - [ ] Faire le rapport
 ISSUES
