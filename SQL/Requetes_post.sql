@@ -174,6 +174,13 @@ SELECT idScientifique FROM Scientifique WHERE idScientifique IN(
 EXCEPT
 (SELECT idPersonnel FROM PersonnelPublie WHERE idPublication IN (SELECT idPublication FROM Publication WHERE nom_conference_journal IN (SELECT nom_conference_journal FROM TypeConf WHERE classe_conference!='A'))))
 
+--29
+																	
+(SELECT idScientifique FROM Scientifique)
+INTERSECT
+(SELECT idPersonnel FROM PersonnelPublie)
+EXCEPT
+(SELECT idPersonnel FROM PersonnelPublie WHERE idPublication IN (SELECT idPublication FROM Publication WHERE nom_conference_journal IN (SELECT nom_conference_journal FROM TypeConf WHERE classe_conference='A')))																	
 --30.   Le nombre de conférences de classe A organisées par le laboratoire par année
 
 SELECT cd.annee, COUNT(cd.Nom_conf) as NbConf FROM
