@@ -51,7 +51,7 @@ NbDoctorants = Agregat(Doctorant,COUNT(*))
 NbScientifiques = Agregat(Scientifique,COUNT(*))
 
 
---9.     Le nombre d enseignants chercheurs par etablissement d enseignement
+--9.     Le nombre d enseignants chercheurs par etablissement d enseignementR1
 
 NbEnseignantsChercheurs = Agregat(Enseignant_chercheur,idEtablissement,COUNT(*) as cntEnseignants)
 
@@ -149,9 +149,17 @@ FROM(SELECT Pays,Nom  FROM Labo_Externe as p)
 LEFT JOIN(SELECT idAuteur, NomLabo FROM Auteur as a)
 ON p.Nom=a.NomLabo
 
+LaboCollabore=Join(Labo_externe as le,Auteur as a,le.Nom=a.NomLabo)
+AuteurCollabore=Project(LaboCollabore,idAuteur)
+NbCollabPays=Project(Agregat(LaboCollabore,Pays,COUNT(AuteurCollabore) as Nb),Pays,Nb)
+A VERIFIER, MADE BY TRINOMICS
+
 --22.   Les doctorants qui ont un seul encadrant et qui ont toujours des publications qu avec leur encadrant
 
 SELECT idDoctorant FROM ScientifiqueEncadreDoctorant WHERE 
+
+NbEncadrantParDoct=Agregat(ScientifiquEncadreDoctorant, idDoctorant, COUNT
+Doctorant1Encadrant=
 
 --23.   Les doctorants qui ont plus de 3 encadrants
 
