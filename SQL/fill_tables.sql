@@ -5,7 +5,7 @@ VALUES  ('Orange', 'Pomme', '5 avenue du rolt', '1989-04-03', '2016-04-18', 1185
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
 VALUES ('Fastaspack', 'Pol', '85 avenue du grolsh', '1964-05-21', '1992-01-04', 121314);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
-VALUES ('Deux', 'Jean-Paul', 'cimetière du vatican', '1929-11-26', '1990-12-25', 151617);
+VALUES ('Deux', 'Jean-Paul', 'cimetiere du vatican', '1929-11-26', '1990-12-25', 151617);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
 VALUES ('Encadrator', 'Zi', 'Dans la matrice', '1950-10-04', '2000-09-25', 10);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
@@ -17,7 +17,7 @@ VALUES ('Kine', 'Miss', 'Rue', '1313-10-13', '1393-01-13', 13);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
 VALUES ('Boule', 'Boojton', 'Royaume de Belgique', '1888-08-08', '2016-08-10', 8);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
-VALUES ('Bill', 'Sacré', 'Royaume de Belgique, niche', '1888-08-08', '2016-08-09', 88);
+VALUES ('Bill', 'Sacre', 'Royaume de Belgique, niche', '1888-08-08', '2016-08-09', 88);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
 VALUES ('Nom', 'Prenom', 'Adresse', '1990-02-04', '2017-04-04', 6);
 INSERT INTO `Personnel` (`Nom`, `Prenom`, `Adresse`, `Date_naissance`, `Date_recrutement`, `idPersonnel`) 
@@ -80,7 +80,7 @@ INSERT INTO `PersonnelParticipeJPO` (`idPersonnel`, `idJPO`)
 VALUES (118518, 12);
 
 INSERT INTO `Etablissement` (`idEtablissement`,`Nom`,`Acronyme`,`Adresse`)
-VALUES (51,'Entreprise Décision Financières','EDF','48 impasse du budget');
+VALUES (51,'Entreprise Decision Financieres','EDF','48 impasse du budget');
 INSERT INTO `Etablissement` (`idEtablissement`,`Nom`,`Acronyme`,`Adresse`)
 VALUES (52,'H2C corporation','H2Ccorp','62 rue de l''eauc');
 INSERT INTO `Etablissement` (`idEtablissement`,`Nom`,`Acronyme`,`Adresse`)
@@ -96,15 +96,15 @@ VALUES (2,52,999);
 
 
 INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
-VALUES (31, 'Encadrator VS Publicator : Conférence-combat', '2019-11-12', '2048-04-05',10);
+VALUES (31, 'Encadrator VS Publicator : Conference-combat', '2019-11-12', '2048-04-05',10);
 INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
-VALUES (8, 'L''inspiration dans l''infiltration : Récit', '2000-11-12', '2000-10-10',007);
+VALUES (8, 'L''inspiration dans l''infiltration : Recit', '2000-11-12', '2000-10-10',007);
 INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
 VALUES (18, 'Demain ne meurt pas aujourd''hui : TED talk', '2001-09-31', '2001-10-31',007);
 INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
-VALUES (28, 'La référence, la conférence youpi', '2018-11-12', '2018-10-10',999);
+VALUES (28, 'La reference, la conference youpi', '2018-11-12', '2018-10-10',999);
 INSERT INTO `Conference` (`idConference`,`Nom_conf`,`date_debut`,`date_fin`,`idPresident`)
-VALUES (38, 'Cours de torture pour débutants', '2018-09-31', '2018-10-31',007);
+VALUES (38, 'Cours de torture pour debutants', '2018-09-31', '2018-10-31',007);
         
 INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
 VALUES ('Sciences & Rhododendrons','A');
@@ -117,7 +117,7 @@ VALUES ('Miamgazine','A');
 INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
 VALUES ('Meuhgazine','B');
 INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
-VALUES ('Magzérable','A'); 
+VALUES ('Magzerable','A'); 
 INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
 VALUES ('Memegazine','A'); 
 INSERT INTO `TypeConf` (`nom_conference_journal`,`classe_conference`)
@@ -136,7 +136,7 @@ VALUES (10,'Recherches sur lard des mets',2018,'Miamgazine',2);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference_journal`, `nb_pages`)
 VALUES (111,'Recherches sur les laits laids',2018,'Meuhgazine',1250);
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference_journal`, `nb_pages`)
-VALUES (100,'Recherches sur la pauvreté',2019,'Magzérable',1848); 
+VALUES (100,'Recherches sur la pauvrete',2019,'Magzerable',1848); 
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference_journal`, `nb_pages`)
 VALUES (2,'Recherches sur les memes',2018,'Memegazine',5); 
 INSERT INTO `Publication` (`idPublication`,`titre`,`annee_publication`, `nom_conference_journal`, `nb_pages`)
@@ -190,7 +190,7 @@ INSERT INTO `AuteurLaboPublie` (`idAuteur`, `idPubli`)
 VALUES (5,3);
 
 INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`,`Cout_global`,`Budget_alloue`,`ScientifiquePorteur`)
-VALUES ('Meilleur projet du meilleur quinôme','MPMQ',2019,1000,0,1,10);
+VALUES ('Meilleur projet du meilleur quinome','MPMQ',2019,1000,0,1,10);
 INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`,`Cout_global`,`Budget_alloue`,`ScientifiquePorteur`)
 VALUES ('Parce que c''est notre projet','PQCNP',2019,1000,4,5,118518);
 INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`,`Cout_global`,`Budget_alloue`,`ScientifiquePorteur`)
@@ -199,7 +199,7 @@ INSERT INTO `Projet_recherche` (`Titre`, `Acronyme`,`Anne_debut`,`Duree`,`Cout_g
 VALUES ('Vivement Dimanche Matin','VDM',1950,5,20000,1,118518);
 
 INSERT INTO `ScientifiqueParticipeProjet` (`TitreProjet`, `idScientifique`)
-VALUES ('Meilleur projet du meilleur quinôme',10);
+VALUES ('Meilleur projet du meilleur quinome',10);
 INSERT INTO `ScientifiqueParticipeProjet` (`TitreProjet`, `idScientifique`)
 VALUES ('Parce que c''est notre projet',118518);
 INSERT INTO `ScientifiqueParticipeProjet` (`TitreProjet`, `idScientifique`)
@@ -221,5 +221,5 @@ VALUES ('Vivement Dimanche Matin',1212);
 INSERT INTO `PartenaireParticipeProjet` (`TitreProjet`,`idPartenaire`)
 VALUES ('Parce que c''est notre projet',1212);
 INSERT INTO `PartenaireParticipeProjet` (`TitreProjet`,`idPartenaire`)
-VALUES ('Meilleur projet du meilleur quinôme',1212);
+VALUES ('Meilleur projet du meilleur quinome',1212);
 

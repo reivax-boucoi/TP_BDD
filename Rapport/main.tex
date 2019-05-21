@@ -12,6 +12,14 @@
 \usepackage{listings}
 \usepackage{multicol}
 
+\lstset{language=SQL,
+    basicstyle=\footnotesize,
+    breaklines=true,
+    numbers=left,%
+    numberstyle={\tiny},
+    frame=single,
+}
+
 \title{Rapport TP BDD}
 \author{ BLANC Loriane \and GUIRAUD Vincent \and HELLOUIN DE CENIVAL Zacharie \and ZENNARO Thomas \and  BOURLOT Xavier}
 
@@ -55,5 +63,22 @@ TODO ici TODO
 \appendix
 \section{Annexes}
 
+\subsection{Code de création des tables}
+\setlength{\columnsep}{1.5cm}
+\begin{multicols}{2}
+\lstinputlisting[language=SQL]{../SQL/create_alter_tables.sql}
+\end{multicols}
+
+\subsection{Code de remplissage des tables}
+\setlength{\columnsep}{1.5cm}
+\begin{multicols}{2}
+\lstinputlisting[language=SQL]{../SQL/fill_tables.sql}
+\end{multicols}
+
+\subsection{Requêtes en Algèbre relationnelle}
+\setlength{\columnsep}{1.5cm}
+\begin{multicols}{2}
+\lstinputlisting[language=SQL]{../Requetes_relationnel}
+\end{multicols}
 
 \end{document}
