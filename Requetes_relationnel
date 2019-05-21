@@ -64,29 +64,16 @@ NbPubliParScientDoctorant = Agregat(PersonnelPublie,idPersonnel,COUNT(idPublicat
 
 --11.   Les personnes ayant participe a toutes les journees portes ouvertes
 
-SELECT idPersonnel FROM PersonnelParticipeJPO j1
-WHERE NOT EXISTS(SELECT * FROM JPO j2)
-WHERE NOT EXISTS(SELECT * FROM PersonnelParticipeJPO j3)
-WHERE (j1.idPersonnel=j3.idPersonnel AND j2.idJPO=j3.idJPO)
+ParticipeAToutesLesJPO = Division(PersonnelParticipeJPO,Project(JPO,idJPO))
+
 
 --12.   Les personnes qui n ont jamais participe aux journees portes ouvertes
 
 PersonnesNonParticipantes = Project(Personnel,idPersonnel) - Project(PersonnelParticipeJPO,idPersonnel)
-
-(SELECT idPersonnel from Personnel)
-EXCEPT
-(SELECT idPersonnel from PersonnelParticipeJPO)
-
-
---mysql
-SELECT idPersonnel from Personnel
-    LEFT JOIN PersonnelParticipeJPO USING (idPersonnel)
-WHERE 
-    PersonnelParticipeJPO.idPersonnel IS NULL; 
     
 --13.   Le nom et l annee de toutes les conferences organisees par un scientifique donne.
 
-SELECT Nom_conf,EXTRACT(YEAR FROM date_debut) FROM Conference WHERE idPresident=7
+NomEtAnneeToutesConfs = Project(Select(Conference,idPresident=7),Nom_conf,EXTRACT(YEAR from date_debut))
 
 --14.   Le nom et le prenom du scientifique qui n a jamais encadre
 
@@ -95,36 +82,33 @@ ScientifiqueNonEncadrant = Project(Scientifique,idScientifique) - Project(Scient
 NomEtPrenomScient = Project(Join(ScientifiqueNonEncadrant,Personnel,idPersonnel = idScientifique),Nom,Prenom)
 
 
---mysql
-SELECT idScientifique from Scientifique
-    LEFT JOIN ScientifiqueEncadreDoctorant USING (idScientifique)
-WHERE 
-    ScientifiqueEncadreDoctorant.idScientifique IS NULL; 
-
 --15.   Pour une annee donnee, on veut recuperer le nombre de publications, de conferences, et de  doctorants de chaque scientifique
-SELECT s.idScientifique, NbPubli,NbConf,NbDocts
-FROM(SELECT idScientifique FROM Scientifique) as s
-LEFT JOIN (SELECT idPresident,COUNT(*) as NbConf FROM Conference WHERE EXTRACT(YEAR FROM date_debut)=2018 GROUP BY idPresident) as c
-ON s.idScientifique=c.idPresident
 
-LEFT JOIN (SELECT idPersonnel,COUNT(*) as NbPubli FROM PersonnelPublie WHERE idPublication IN(SELECT idPublication FROM Publication	WHERE annee_publication=2018) GROUP BY idPersonnel) as p
-ON s.idScientifique=p.idPersonnel
+NbDoctorantsAnneeDonnee = Project(Select(Doctorant,EXTRACT(YEAR from date_soutenance)=2018),idDoctorant)
+DoctorantsParScientifique = Join(NbDoctorantsAnneeDonnee as da,ScientifiqueEncadreDoctorant as sed,da.idDoctorant=sed.idDoctorant)
+NbDoctorantsDunScientifique = Agregat(DoctorantsParScientifique,idScientifique,COUNT(idDoctorant))
 
-LEFT JOIN	(SELECT idScientifique,COUNT(*) as NbDocts FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SELECT idDoctorant FROM Doctorant WHERE EXTRACT(YEAR FROM date_soutenance)=2018)GROUP BY idScientifique) as d
-ON s.idScientifique=d.idScientifique
+NbPublicationsAnneeDonnee = Project(Select(Publication,annee_publication=2018),idPublication)
+PublicationParPersonnel = Join(NbPublicationsAnneeDonnee as pa,PersonnelPublie as pp,pa.idPublication=pp.idPublication)
+PublicationParScientifique = Join(Project(PublicationParPersonnel,idPublication,idPersonnel) as pe,Scientifique as s,s.idScientifique=pe.idPersonnel)
+NbPublicationsDunScientifique = Agregat(PublicationParScientifique,idScientifique,COUNT(idPublication))
+
+ConferencesPresidesAnneeDonnee = Project(Select(Conference,EXTRACT(YEAR from date_soutenance)=2018),idPresident,idConference)
+ConferencePresideParScientifique = Join(ConferencesPresidesAnneeDonnee as cp,Scientifique as s,s.idScientifique=cp.idPresident)
+NbConferencessDunScientifique = Agregat(ConferencePresideParScientifique,idScientifique,COUNT(idConference))
+
+ResultatIntermediaire = Join(NbDoctorantsDunScientifique as ds,NbPublicationsDunScientifique as ps,ds.idScientifique=ps.idScientifique)
+ResultatFinal = Join(ResultatIntermediaire as ri,NbConferencessDunScientifique as cs,ri.idScientifique=ps.idScientifique)
 
 --16.   Le nom et le prenom du scientifique qui n a jamais publie, encadre, ni participe a des projets.
 
-SELECT Nom,Prenom from Personnel p WHERE p.idPersonnel=
-((((SELECT idScientifique from Scientifique)
-EXCEPT
-(SELECT idScientifique from ScientifiqueEncadreDoctorant))
-EXCEPT
-(SELECT idScientifique from ScientifiqueParticipeProjet))
-EXCEPT
-SELECT idPersonnel from PersonnelPublie)
+Scientifiques = Project(Scientifique,idScientifique)
+ScientifiqueEncadrant = Project(ScientifiqueEncadreDoctorant,idScientifique)
+ScientifiqueParticipant = Project(ScientifiqueParticipeProjet,idScientifique)
+PersonnelPubliant = Project(PersonnelPublie,idPersonnel)
 
---mysql TODO
+IDScientifiquePassif = Scientifiques - ScientifiqueEncadrant - ScientifiqueParticipant - PersonnelPubliant
+ScientifiquePassif = Project(Join(IDScientifiquePassif,Personnel),Nom,Prenom)
 
 --17.   Afficher pour chaque scientifique, le nombre de ses publications, le nombre de ses projets et de ses doctorants.
 
@@ -139,29 +123,24 @@ ON s.idScientifique=d.idScientifique
 
 --18.   Les scientifiques qui ont que des doctorants ayant soutenus et pas de doctorant en cours
 
-SELECT idScientifique FROM ScientifiqueEncadreDoctorant 
-WHERE (idDoctorant IN (SELECT idDoctorant FROM Doctorant WHERE (date_soutenance < CURRENT_DATE)))
-EXCEPT
-SELECT idScientifique FROM ScientifiqueEncadreDoctorant 
-WHERE (idDoctorant IN (SELECT idDoctorant FROM Doctorant WHERE (date_soutenance >= CURRENT_DATE)))
+
+ DoctorantsQuiOntSoutenus = Project(Join(Select(Doctorant,date_soutenance<CURRENT_DATE) as dcd ,ScientifiqueEncadreDoctorant as sed,sed.idDoctorant=dcd.idDoctorant),idScientifique)
+ DoctorantsQuiOntPasSoutenus = Project(Join(Select(Doctorant,date_soutenance>=CURRENT_DATE) as dcd ,ScientifiqueEncadreDoctorant as sed,sed.idDoctorant=dcd.idDoctorant),idScientifique)
+ScinetifiquesAyantDoctorants = DoctorantsQuiOntSoutenus - DoctorantsQuiOntPasSoutenus
+
 
 --19.   Pour chaque scientifique, le nombre de ses collaborateur externes
-, COUNT(*) as NbCollab
 
-
-SELECT s.idScientifique,COUNT(p.idAuteur) as NbCollab
-FROM Scientifique s
-JOIN (SELECT idPersonnel, idAuteur 
-FROM PersonnelPublie
-JOIN AuteurLaboPublie
-ON idPublication=idPubli) as p
-ON p.idPersonnel=s.idScientifique
-GROUP BY idScientifique
-
+ScientifiquesPubliant = Join(Scientifique,PersonnelPublie,idScientifique=idPersonnel)
+CollabPubli = Join(Project(ScientifiquesPubliant,idScientifique,idPublication),AuteurLaboPublie,idPublication=idPubli)
+NbCollabParScientifique = Agregat(Project(CollabPubli,idScientifique,idAuteur),idScientifique,COUNT(idAuteur))
 
 --20.   Les scientifiques qui encadrent mais n ont pas de doctorants ayant deja soutenu
 
-SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SELECT idDoctorant FROM Doctorant WHERE (date_soutenance > CURRENT_DATE))
+
+DoctorantsQuiOntPasSoutenus = Select(Doctorant,date_soutenance > CURRENT_DATE)
+IDScientifiquesEncadrantDoctorantsPasSoutenus = Project(Join(DoctorantsQuiOntPasSoutenus as dps,ScientifiqueEncadreDoctorant as sed,dps.idDoctorant=sed.idDoctorant),idScientifique)
+ScientifiquesEncadrantDoctorantsPasSoutenus = Agregat(IDScientifiquesEncadrantDoctorantsPasSoutenus,idScientifique)
 
 --21.   Le nombre de collaborateurs par pays
 
@@ -176,7 +155,8 @@ SELECT idDoctorant FROM ScientifiqueEncadreDoctorant WHERE
 
 --23.   Les doctorants qui ont plus de 3 encadrants
 
-SELECT idDoctorant FROM ScientifiqueEncadreDoctorant GROUP BY idDoctorant HAVING COUNT(idScientifique)>3
+
+DoctorantsAvecPlusDe3Encadrants = Project(Select(ScientifiqueEncadreDoctorant,HAVING COUNT(idScientifique)>3),idDoctorant)
 
 --24.   Les scientifiques qui ont plus de 3 doctorants qui ont debute leur these il y a moins de 2 ans.
 
@@ -186,11 +166,21 @@ SELECT idDoctorant FROM ScientifiqueEncadreDoctorant GROUP BY idDoctorant HAVING
 
 --27.   Les pays qui sont presents a tous les projets
 
+PaysPresentsPartout = Division(Project(Partenaire,Pays,idPartenaire),Project(PartenaireParticipeProjet,idPartenaire))
+
 --28.   Les scientifiques qui publient que dans des conferences de classe A
 
 --29.   Les scientifiques qui n ont jamais publie dans des conferences de classe A
 
---30.   Le nombre de conferences de classe A organisees par le laboratoire par annee
+--30.   Le nombre de conférences de classe A organisées par le laboratoire par année
 
---31.   L etablissement d enseignement ayant le plus grand nombre d enseignant chercheur
+ConfClasseA = Project(Select(TypeConf,classe_conference='A'),nom_conference_journal)
+NomConfsClasseA = Join(ConfClasseA,Conference,Nom_conf=nom_conference_journal)
+NomConfsClasseAannee = Project(NomConfsClasseA,EXTRACT(YEAR from annee_debut) as annee,nom_conference_journal)
+NbConfsParAnnee = Agregat(NomConfsClasseAannee,annee,COUNT(nom_conference_journal))
 
+
+--31.   L’établissement d’enseignement ayant le plus grand nombre d’enseignant chercheur
+
+NbEnseignantsChercheursParEtab = Agregat(Enseignant_chercheur,idEtablissement,COUNT(*) as NbEnsCherch)
+EtabAyantLePlusDePersonnes = Agregat(NbEnseignantsChercheursParEtab,idEtablissement,MAX(NbEnsCherch))
