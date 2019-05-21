@@ -149,6 +149,23 @@ GROUP BY pn.Pays
 
 SELECT idDoctorant FROM ScientifiqueEncadreDoctorant GROUP BY idDoctorant HAVING COUNT(idScientifique)>3
 
+--26.   Les scientifiques qui recrutent au moins un doctorant par année
+
+
+SELECT da.idScientifique FROM
+(SELECT sd.idScientifique, COUNT(sd.DateDoc) as NbDocs, AVG(EXTRACT( YEAR FROM p.Date_recrutement)) as DateSci
+FROM (SELECT idPersonnel, Date_recrutement FROM Personnel) as p
+
+JOIN (SELECT DISTINCT s.idScientifique, EXTRACT(YEAR FROM d.Date_recrutement) as DateDoc
+FROM 
+(SELECT idScientifique, idDoctorant FROM ScientifiqueEncadreDoctorant) as s 
+JOIN 
+(SELECT idPersonnel,Date_recrutement FROM Personnel WHERE idPersonnel IN (SELECT idDoctorant FROM Doctorant)) as d 
+ON s.idDoctorant=d.idPersonnel )as sd
+ON sd.idScientifique=p.idPersonnel
+GROUP BY sd.idScientifique) as da
+WHERE (da.nbdocs>= (EXTRACT(YEAR FROM CURRENT_DATE) - da.DateSci))
+
 --30.   Le nombre de conférences de classe A organisées par le laboratoire par année
 
 SELECT cd.annee, COUNT(cd.Nom_conf) as NbConf FROM

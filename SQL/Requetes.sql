@@ -15,16 +15,10 @@ INTERSECT
 
 
 
-
-
-
---mysql TODO
-
 --18.   Les scientifiques qui ont que des doctorants ayant soutenus et pas de doctorant en cours
 
 
 SELECT idScientifique FROM ScientifiqueEncadreDoctorant 
-WHERE (idDoctorant IN (SELECT idDoctorant FROM Doctorant))
 EXCEPT
 SELECT idScientifique FROM ScientifiqueEncadreDoctorant 
 WHERE (idDoctorant IN (SELECT idDoctorant FROM Doctorant WHERE (date_soutenance >= CURRENT_DATE)))
@@ -62,17 +56,23 @@ HAVING COUNT(idScientifique)>3
 
 
 
-SELECT sd.idScientifique, COUNT(sd.DateDoc) as cntDoc, EXTRACT( YEAR FROM p.Date_recrutement) as DateSci
-FROM (SELECT idPersonnel, Date_recrutement FROM Personnel) as p
+SELECT sd.idScientifique, COUNT(sd.DateDoc) as NbDocs, AVG(EXTRACT( YEAR FROM p.Date_recrutement)) as DateSci
+FROM 
+
+(SELECT idPersonnel, Date_recrutement FROM Personnel) as p
+
 JOIN 
+
 (SELECT DISTINCT s.idScientifique, EXTRACT(YEAR FROM d.Date_recrutement) as DateDoc
 FROM 
 (SELECT idScientifique, idDoctorant FROM ScientifiqueEncadreDoctorant) as s 
 JOIN 
 (SELECT idPersonnel,Date_recrutement FROM Personnel WHERE idPersonnel IN (SELECT idDoctorant FROM Doctorant)) as d 
 ON s.idDoctorant=d.idPersonnel )as sd
+
 ON sd.idScientifique=p.idPersonnel
-GROUP BY idScientifique
+GROUP BY sd.idScientifique
+--GROUP BY sd.idScientifique
 
 
 --27.   Les pays qui sont présents à tous les projets
