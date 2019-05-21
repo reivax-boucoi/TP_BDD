@@ -15,7 +15,8 @@ TODO
 - [x] Remplir les tables crées par un jeux de données significatif (`./SQL/fill_tables.sql`) 
 - [ ] Ecrire les requêtes (`./SQL/Requetes.sql`)
 - [ ] Tester les requêtes (`./SQL/Requetes.sql`)
-
+- [ ] Optional : migrate to use the provided DB
+- [ ] Faire le rapport
 ISSUES
 
 UNION and INTERSECT don't seem to work in MYSQL
