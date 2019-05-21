@@ -7,7 +7,7 @@ Repo de travail TP_BDD 3IMACS-AE
 > BOURLOT Xavier
 
 ***
-TODO  
+### TODO  
 - [x] Concevoir la  base de donnée en UML  (`class_diagram.png`)
 - [x] Traduire le diagramme de classe vers le modèle relationnel  (`relation_diagram_phpmyadmin.png`)
 - [x] Normalisation de schéma relationnel obtenu 
@@ -19,6 +19,6 @@ TODO
 - [ ] Optional : migrate to use the provided DB
 - [ ] Faire le rapport  
   
-ISSUES
+### ISSUES
 
 UNION and INTERSECT don't seem to work in MYSQL
