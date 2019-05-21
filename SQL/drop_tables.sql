@@ -17,4 +17,4 @@
  DROP TABLE  Scientifique                  ;
  DROP TABLE  ScientifiqueEncadreDoctorant  ;
  DROP TABLE  ScientifiqueParticipeProjet   ;
- show tables;
+\dt
