@@ -1,4 +1,4 @@
---1.     Le nom et les grades des encadrants d un doctorant donne
+﻿--1.     Le nom et les grades des encadrants d un doctorant donne
 ScientifiqueEncadrant = Project(Select(ScientifiqueEncadreDoctorant,idDoctorant=1),idScientifique)
 NomsEtGradesEncadrants = Project(Join(Personnel,ScientifiqueEncadrant,idPersonnel=idScientifique),Nom,Prenom)
 
@@ -121,13 +121,27 @@ ON s.idScientifique=pr.idScientifique
 LEFT JOIN (SELECT idScientifique, COUNT(*) as NbDocts FROM ScientifiqueEncadreDoctorant GROUP BY idScientifique) as d
 ON s.idScientifique=d.idScientifique
 
+--17.   Afficher pour chaque scientifique, le nombre de ses publications, le nombre de ses projets et de ses doctorants.
+
+NbDoctorantsParScientifique = Agregat(ScientifiqueEncadreDoctorant,idScientifique,COUNT(idDoctorant) as NbDocts)
+
+NbPublicationsParPersonne = Agregat(PersonnelPublie,idPersonnel,COUNT(idPublication) as NbPublis)
+
+NbPublicationsParScientifique = Join(NbPublicationsParPersonne,Project(Scientifique,idScientifique) as s,idPersonnel=s.idScientifique)
+
+NbProjetsParScientifique = Agregat(ScientifiqueParticipeProjet,idScientifique,COUNT(*) as NbProjets)
+
+NbDoctorantsEtPublications = Join(NbDoctorantsParScientifique as ds,NbPublicationsParScientifique as ps,ds.idScientifique=ps.idScientifique)
+
+NbDocPubliProjetParScientifique = Join(NbDoctorantsEtPublications as dp,NbProjetsParScientifique as prs,dp.idScientifique=prs.idScientifique)
+
+ 
 --18.   Les scientifiques qui ont que des doctorants ayant soutenus et pas de doctorant en cours
 
-
- DoctorantsQuiOntSoutenus = Project(Join(Select(Doctorant,date_soutenance<CURRENT_DATE) as dcd ,ScientifiqueEncadreDoctorant as sed,sed.idDoctorant=dcd.idDoctorant),idScientifique)
- DoctorantsQuiOntPasSoutenus = Project(Join(Select(Doctorant,date_soutenance>=CURRENT_DATE) as dcd ,ScientifiqueEncadreDoctorant as sed,sed.idDoctorant=dcd.idDoctorant),idScientifique)
-ScinetifiquesAyantDoctorants = DoctorantsQuiOntSoutenus - DoctorantsQuiOntPasSoutenus
-
+ 
+ DoctorantsQuiOntPasSoutenus = Project(Join(Select(Doctorant,date_soutenance>=CURRENT_DATE) as dcd ,ScientifiqueEncadreDoctorant as sed,sed.idDoctorant=dcd.idDoctorant),idScientifique,idDoctorant)
+ 
+ScientifiquesAyantDoctorants = ScientifiqueEncadreDoctorant - DoctorantsQuiOntPasSoutenus
 
 --19.   Pour chaque scientifique, le nombre de ses collaborateur externes
 
@@ -135,68 +149,127 @@ ScientifiquesPubliant = Join(Scientifique,PersonnelPublie,idScientifique=idPerso
 CollabPubli = Join(Project(ScientifiquesPubliant,idScientifique,idPublication),AuteurLaboPublie,idPublication=idPubli)
 NbCollabParScientifique = Agregat(Project(CollabPubli,idScientifique,idAuteur),idScientifique,COUNT(idAuteur))
 
+
 --20.   Les scientifiques qui encadrent mais n ont pas de doctorants ayant deja soutenu
 
 
-DoctorantsQuiOntPasSoutenus = Select(Doctorant,date_soutenance > CURRENT_DATE)
-IDScientifiquesEncadrantDoctorantsPasSoutenus = Project(Join(DoctorantsQuiOntPasSoutenus as dps,ScientifiqueEncadreDoctorant as sed,dps.idDoctorant=sed.idDoctorant),idScientifique)
-ScientifiquesEncadrantDoctorantsPasSoutenus = Agregat(IDScientifiquesEncadrantDoctorantsPasSoutenus,idScientifique)
+DoctorantsQuiOntSoutenus = Select(Doctorant,date_soutenance <= CURRENT_DATE)
+
+IdDoctorantsQuiOntSoutenus = Project(DoctorantsQuiOntSoutenus,idDoctorant)
+
+ScientifiquesEncadrantDoctorantsSoutenus = Join(IdDoctorantsQuiOntSoutenus as ds,ScientifiqueEncadreDoctorant as sed,ds.idDoctorant=sed.idDoctorant)
+
+ScientifiquesEncadrantDoctorantsPasSoutenus = Project(Scientifique,idScientifique) - Project(ScientifiquesEncadrantDoctorantsSoutenus,idScientifique)
 
 --21.   Le nombre de collaborateurs par pays
 
-SELECT p.Pays, COUNT(idAuteur)
-FROM(SELECT Pays,Nom  FROM Labo_Externe as p) 
-LEFT JOIN(SELECT idAuteur, NomLabo FROM Auteur as a)
-ON p.Nom=a.NomLabo
+LaboCollabore = Join(Labo_externe as le,Auteur as a,le.Nom=a.NomLabo)
+AuteurCollabore = Project(LaboCollabore,idAuteur,Pays)
+NbCollabParPays = Agregat(AuteurCollabore,Pays,COUNT(idAuteur))
 
-LaboCollabore=Join(Labo_externe as le,Auteur as a,le.Nom=a.NomLabo)
-AuteurCollabore=Project(LaboCollabore,idAuteur)
-NbCollabPays=Project(Agregat(LaboCollabore,Pays,COUNT(AuteurCollabore) as Nb),Pays,Nb)
-A VERIFIER, MADE BY TRINOMICS
 
---22.   Les doctorants qui ont un seul encadrant et qui ont toujours des publications qu avec leur encadrant
+--22. Les doctorants qui ont un seul encadrant et qui ont toujours des publications qu avec leur encadrant
 
-SELECT idDoctorant FROM ScientifiqueEncadreDoctorant WHERE 
 
-NbEncadrantParDoct=Agregat(ScientifiquEncadreDoctorant, idDoctorant, COUNT(idScientifique) as NbEncadrant)
-Doctorant1Encadrant=Select(NbEncadrantParDoct, NbEncadrant = 1)
-1EncadrEtEncadrant=Join(Doctorant1Encadrant as d1e, ScientifiqueEncadreDoctorant as sed, d1e.idDoctorant=sed.idDoctorant)
---autre moyen plus court de faire ces trois lignes :
---Doctorant1Encadrant=Project(Select(ScientifiqueEncadreDoctorant,HAVING COUNT(idScientifique)=1),idDoctorant)
+DoctsAvecUnEncadrant = Select(Agregat(ScientifiqueEncadreDoctorant,idDoctorant,COUNT(idScientifique) as NbEncadrants),NbEncadrants=1)
 
-Doctorant_Publi_1Scientifique=Join(1EncadrEtEncadrant as 1eee, PersonnelPublie as ppubl, 1eee.idDoctorant=ppubl.idPersonnel)
---A finir : extraire de Doctorant_Publi_1Scientifique la liste avec sci et publis associées et la liste avec doctorants et publis associées et join avec
---condition que les publi soient identiques
-Doctorant_Publi_1Scientifique.publication=intersection entre Doctorant_Publi_1Scientifique.scientifique et PersonnelPublie
-PublicationAvecEncadrant=
+DoctsPubliant = Join(PersonnelPublie,DoctsAvecUnEncadrant,idPersonnel=idDoctorant as idDoc)
+
+ScientifiquesPubliant = Join(Project(Scientifique,idScientifique),PersonnelPublie,idPersonnel=idScientifique as idScient)
+
+DoctsEtScientPubliant = Project(Join(DoctsPubliant as dp,ScientifiquesPubliant as sp,dp.idPublication=sp.idPublication),idScient,idDoc)
+
+DoctsPubliantavecEncadrant = Agregat(DoctsEtScientPubliant,idDoc,COUNT(idScient) as NbScient)
+
+DoctsPubliantQuavecSonEncadrant = Project(Select(DoctsPubliantavecEncadrant,NbScient=1),idDoc)
+
+
 --23.   Les doctorants qui ont plus de 3 encadrants
 
+NbScientifiquesParDoctorant = Agregat(ScientifiqueEncadreDoctorant,idDoctorant,COUNT(idScientifique) as NbScient)
 
-DoctorantsAvecPlusDe3Encadrants = Project(Select(ScientifiqueEncadreDoctorant,HAVING COUNT(idScientifique)>3),idDoctorant)
+DoctorantsAvecPlusDe3Encadrants = Project(Select(NbScientifiquesParDoctorant,NbScient>3),idDoctorant)
 
---24.   Les scientifiques qui ont plus de 3 doctorants qui ont debute leur these il y a moins de 2 ans.
+--24 Les scientifiques qui ont plus de 3 doctorants qui ont debute leur these il y a moins de 2 ans.
 
---25.   Les doctorants qui ont au moins une publication chaque annee depuis leur recrutement
 
---26.   Les scientifiques qui recrutent au moins un doctorant par annee
+DoctorantsRecrutes = Join(Personnel,Doctorant,idPersonnel=idDoctorant as idDoc)
+
+DoctorantsEncadres = Join(ScientifiqueEncadreDoctorant as sed,DoctorantsRecrutes as d,sed.idDoctorant=d.idDoc as idDocto)
+
+DebutTheseMoinsDe2ans = Project(Select(DoctorantsEncadres,EXTRACT(YEAR From date_recrutement)-EXTRACT(YEAR From CURRENT_DATE) < 2),idScientifique,idDocto)
+
+NbDoctorantsParScientifique = Agregat(DebutTheseMoinsDe2ans,idScientifique,COUNT(idDocto) as NbDocts)
+
+DoctorantsAvecPlusDe3Encadrants = Porject(Select(NbDoctorantsParScientifique,NbDocts>3),idScientifique)
+
+--25. Les doctorants qui ont au moins une publication chaque annee depuis leur recrutement
+
+DoctorantsRecrutes = Join(Personnel,Doctorant,idPersonnel=idDoctorant as idDoc)
+
+DoctorantsPubliant = Join(DoctorantsRecrutes,PersonnelPublie,idPersonnel=idDoc as idDoctor)
+
+NbPubliParDoctorant = Agregat(DoctorantsPubliant,idDoctor,COUNT(idPublication) as NbPubli)
+
+DoctorantsPubliantChaqueAnnee = Select(Project(NbPubliParDoctorant,idDoctor,annee_recrutement,NbPubli),NbPubli >= EXTRACT(YEAR From CURRENT_DATE)-EXTRACT(YEAR From date_recrutement)) 
+
+DoctorantsPubliantParAn = Project(DoctorantsPubliantChaqueAnnee,idDoctor)
+
+--26. Les scientifiques qui recrutent au moins un doctorant par annee
+
+ScientifiquesEncadrant = Join(ScientifiqueEncadreDoctorant,Personnel,idPersonnel=idScientifique as idScient)
+
+NbDoctorantsParScientifique = Agregat(ScientifiquesEncadrant,idScient,COUNT(idDoctorant) as NbDocts)
+
+DoctorantsRecrutesParAn = Select(NbDoctorantsParScientifique,NbDocts >= EXTRACT(YEAR From CURRENT_DATE)-EXTRACT(YEAR From date_recrutement))
+
+ScientifiquesEncadrantParAn = Project(DoctorantsRecrutesParAn,idScient)
 
 --27.   Les pays qui sont presents a tous les projets
 
 PaysPresentsPartout = Division(Project(Partenaire,Pays,idPartenaire),Project(PartenaireParticipeProjet,idPartenaire))
 
---28.   Les scientifiques qui publient que dans des conferences de classe A
+--28. Les scientifiques qui publient que dans des conferences de classe A
 
---29.   Les scientifiques qui n ont jamais publie dans des conferences de classe A
+
+ConfClasseA = Select(TypeConf,classe_conference='A')
+
+NomConfsClasseA = Join(ConfClasseA as ca,Publication as c,ca.nom_conference_journal=p.nom_conference_journal)
+
+PersonnelPubliantDansConfClasseA = Join(PersonnelPublie as pp,NomConfsClasseA as a,pp.idPublication=a.idPublication)
+
+ScientPubliantDansConfClasseA = Join(Scientifique,PersonnelPubliantDansConfClasseA,idPersonnel=idScientifique as idScient)
+
+ScientPubliantDansConfClasseA = Project(ScientPubliantDansConfClasseA,idScient,idPublication)
+
+IDScientPubliantDansConfClasseA = Project(Agregat(ScientPubliantDansConfClasseA,idScient,COUNT(*)),idScient)
+
+--29. Les scientifiques qui n ont jamais publie dans des conferences de classe A
+
+ScientifiquesPubliant = Project(Scientifique,idScientifique)
+
+PubliClasseA = Join(Select(TypeConf,classe_conference='A') as ca,Publication as p,ca.nom_conference_journal=p.nom_conference_journal)
+
+PersonnelPubliDansClasseA = Join(PersonnelPublie as pp,PubliClasseA as pa,pp.idPublication=pa.idPublication)
+
+UniquePubliants = Agregat(Project(PersonnelPubliDansClasseA,idPersonnel,idPublication),idPersonnel,COUNT(idPublication))
+
+ScientPubliantPasDansClasseA = ScientifiquesPubliant - Project(UniquePubliants,idPersonnel)
 
 --30.   Le nombre de conférences de classe A organisées par le laboratoire par année
 
 ConfClasseA = Project(Select(TypeConf,classe_conference='A'),nom_conference_journal)
-NomConfsClasseA = Join(ConfClasseA,Conference,Nom_conf=nom_conference_journal)
-NomConfsClasseAannee = Project(NomConfsClasseA,EXTRACT(YEAR from annee_debut) as annee,nom_conference_journal)
-NbConfsParAnnee = Agregat(NomConfsClasseAannee,annee,COUNT(nom_conference_journal))
 
+NomConfsClasseA = Join(ConfClasseA,Conference,nom_conference_journal=Nom_conf as nomConf)
+
+NomConfsClasseAParAnnee = Project(NomConfsClasseA,EXTRACT(YEAR from annee_debut) as annee,nomConf)
+
+NbConfsParAnnee = Agregat(NomConfsClasseAParAnnee,annee,COUNT(nomConf))
 
 --31.   L’établissement d’enseignement ayant le plus grand nombre d’enseignant chercheur
 
-NbEnseignantsChercheursParEtab = Agregat(Enseignant_chercheur,idEtablissement,COUNT(*) as NbEnsCherch)
-EtabAyantLePlusDePersonnes = Agregat(NbEnseignantsChercheursParEtab,idEtablissement,MAX(NbEnsCherch))
+NbEnseignantsChercheursParEtab = Agregat(Enseignant_chercheur,idEtablissement,COUNT(idScientifique) as NbEnsCherch)
+
+NbEnsCherchsParEtab = Project(NbEnseignantsChercheursParEtab,idEtablissement,NbEnsCherch)
+
+EtabAyantLePlusDePersonnes = Agregat(NbEnsCherchsParEtab,idEtablissement,MAX(NbEnsCherch))
