@@ -1,4 +1,4 @@
-# TP_BDD
+﻿# TP_BDD
 ***
 Repo de travail TP_BDD 3IMACS-AE
 > BLANC Loriane || GUIRAUD Vincent <br>
@@ -13,7 +13,7 @@ Repo de travail TP_BDD 3IMACS-AE
 - [x] Normalisation de schéma relationnel obtenu 
 - [x] Créer les tables qui correspondent au schéma relationnel normalisé  (`./SQL/create_alter_tables.sql`)
 - [x] Remplir les tables crées par un jeux de données significatif (`./SQL/fill_tables.sql`) 
-- [ ] Ecrire les requêtes en algèbre relationnelle (`./Requetes_relationnel`)
+- [x] Ecrire les requêtes en algèbre relationnelle (`./Requetes_relationnel`)
 - [ ] Ecrire les requêtes SQL (`./SQL/Requetes.sql`)
 - [ ] Tester les requêtes SQL (`./SQL/Requetes.sql`)
 - [ ] Ajouter les screenshots manquants des résultats des requêtes validées (`./Rapport/screenshots/r*.PNG`)  
