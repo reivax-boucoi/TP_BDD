@@ -222,6 +222,17 @@ ON sd.idScientifique=p.idPersonnel
 GROUP BY sd.idScientifique) as da
 WHERE (da.nbdocs>= (EXTRACT(YEAR FROM CURRENT_DATE) - da.DateSci))
 
+--27.   Les pays qui sont présents à tous les projets
+
+SELECT pc.Pays
+FROM (SELECT DISTINCT COUNT(ppp.TitreProjet) as nbProj, pa.Pays 
+FROM
+(SELECT DISTINCT Pays, idPartenaire FROM Partenaire)as pa
+JOIN 
+(SELECT * FROM PartenaireParticipeProjet)as ppp
+ON ppp.idPartenaire=pa.idPartenaire
+GROUP BY pa.Pays) as pc
+WHERE pc.nbProj=(SELECT COUNT(*) FROM Projet_recherche)
 
 --28.   Les scientifiques qui publient que dans des conférences de classe A
 

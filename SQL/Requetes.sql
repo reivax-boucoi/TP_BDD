@@ -78,11 +78,16 @@ ON tp.idPersonnel=np.idPersonnel
 WHERE np.ap = tp.Nbannees
 
 --27.   Les pays qui sont présents à tous les projets
-
-	  
-SELECT idPartenaire FROM Partenaire part1 WHERE NOT EXISTS(SELECT * FROM PartenaireParticipeProjet ppp WHERE NOT EXISTS(
-	SELECT * FROM Partenaire part2 WHERE part1.Pays=part2.Pays AND part2.idPartenaire=ppp.idPartenaire))
-
+SELECT pc.Pays
+FROM (SELECT DISTINCT COUNT(ppp.TitreProjet) as nbProj, pa.Pays 
+FROM
+(SELECT DISTINCT Pays, idPartenaire FROM Partenaire)as pa
+JOIN 
+(SELECT * FROM PartenaireParticipeProjet)as ppp
+ON ppp.idPartenaire=pa.idPartenaire
+GROUP BY pa.Pays) as pc
+WHERE pc.nbProj=(SELECT COUNT(*) FROM Projet_recherche)
+  
 --28.   Les scientifiques qui publient que dans des conférences de classe A
 
 SELECT idScientifique FROM Scientifique WHERE idScientifique IN(
