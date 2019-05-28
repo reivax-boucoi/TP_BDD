@@ -118,6 +118,14 @@ ON s.idScientifique=pr.idScientifique
 LEFT JOIN (SELECT idScientifique, COUNT(*) as NbDocts FROM ScientifiqueEncadreDoctorant GROUP BY idScientifique) as d
 ON s.idScientifique=d.idScientifique
 
+--18.   Les scientifiques qui ont que des doctorants ayant soutenus et pas de doctorant en cours
+
+
+SELECT idScientifique FROM ScientifiqueEncadreDoctorant 
+EXCEPT
+SELECT idScientifique FROM ScientifiqueEncadreDoctorant 
+WHERE (idDoctorant IN (SELECT idDoctorant FROM Doctorant WHERE (date_soutenance >= CURRENT_DATE)))
+
 --19.   Pour chaque scientifique, le nombre de ses collaborateur externes
 
 
