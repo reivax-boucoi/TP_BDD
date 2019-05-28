@@ -97,6 +97,7 @@ ON s.idScientifique=d.idScientifique
 
 
 --16.   Le nom et le prénom du scientifique qui n’a jamais publié, encadré, ni participé à des projets.
+
 SELECT Nom,Prenom from Personnel p WHERE p.idPersonnel=
 ((((SELECT idScientifique from Scientifique)
 EXCEPT
@@ -144,7 +145,6 @@ SELECT idScientifique FROM ScientifiqueEncadreDoctorant WHERE idDoctorant IN(SEL
 
 --21.   Le nombre de collaborateurs par pays
 
-
 SELECT pn.Pays, COUNT(idAuteur)
 FROM(SELECT Pays,Nom  FROM Labo_externe) as pn
 LEFT JOIN(SELECT idAuteur, NomLabo FROM Auteur) as a
@@ -177,7 +177,7 @@ SELECT idDoctorant FROM ScientifiqueEncadreDoctorant GROUP BY idDoctorant HAVING
 
 --24.   Les scientifiques qui ont plus de 3 doctorants qui ont débuté leur thèse il y a moins de 2 ans.
 
--- NON TESTABLE !!!!!!!!
+-- NON TESTABLE ACTUELLEMENT !!!!!!!!
 
 SELECT s.idScientifique FROM (
 SELECT idScientifique, COUNT(idDoctorant) as NbDocts FROM ScientifiqueEncadreDoctorant
@@ -242,7 +242,7 @@ EXCEPT
 (SELECT idPersonnel FROM PersonnelPublie WHERE idPublication IN (SELECT idPublication FROM Publication WHERE nom_conference_journal IN (SELECT nom_conference_journal FROM TypeConf WHERE classe_conference!='A'))))
 
 --29
-																	
+
 (SELECT idScientifique FROM Scientifique)
 INTERSECT
 (SELECT idPersonnel FROM PersonnelPublie)
@@ -257,4 +257,16 @@ LEFT JOIN
 ON na.nom_conference_journal=cd.Nom_conf
 GROUP BY cd.anne
 
+--31. L’établissement d’enseignement ayant le plus grand nombre d’enseignant chercheur
+
+SELECT idcnt.idEtablissement FROM 
+(SELECT idEtablissement,COUNT(*) as cntEnseignants
+	FROM Enseignant_chercheur 
+	GROUP BY idEtablissement) as idcnt
+	
+WHERE idcnt.cntEnseignants=(SELECT max(nc.cntEnseignants)
+FROM (
+	SELECT idEtablissement,COUNT(*) as cntEnseignants
+	FROM Enseignant_chercheur 
+	GROUP BY idEtablissement) as nc)
 
