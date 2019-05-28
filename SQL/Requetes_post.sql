@@ -12,6 +12,17 @@ ON s.idScientifique=p.idPersonnel
 
 SELECT Pays FROM Labo_externe WHERE Nom IN(SELECT NomLabo FROM Auteur WHERE idAuteur IN(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli IN(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=8)));
 
+--3.     Les noms et les pays des auteurs collaborateurs d’un scientifique donné en 2018
+
+SELECT nnl.Nom, l.Pays FROM
+(SELECT Nom, NomLabo FROM Auteur WHERE idAuteur IN(SELECT idAuteur FROM AuteurLaboPublie WHERE idPubli IN(SELECT idPublication FROM PersonnelPublie WHERE idPersonnel=8)
+INTERSECT
+(SELECT idPublication FROM Publication WHERE annee_publication=2018)))as nnl
+JOIN
+(SELECT Nom,Pays FROM Labo_externe)as l
+ON nnl.NomLabo=l.Nom
+
+
 --4.     Le nombre de collaborateurs d’un scientifique donné en 2018
 
 
