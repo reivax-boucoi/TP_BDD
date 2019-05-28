@@ -45,23 +45,22 @@ WHERE idPersonnel in
 GROUP BY idDoctorant
 HAVING COUNT(*)=1 ))))
 
---24.   Les scientifiques qui ont plus de 3 doctorants qui ont débuté leur thèse il y a moins de 2 ans. TODO
-SELECT idPersonnel FROM Personnel p WHERE ((EXTRACT(YEAR FROM p.Date_recrutement) >= (EXTRACT(YEAR FROM CURRENT_DATE))-2) OR (EXTRACT(YEAR FROM p.date_recrutement) < EXTRACT(YEAR FROM CURRENT_DATE)))
 
---p.date_recrutement BETWEEN SUBDATE(CURRENT_DATE,INTERVAL "02-00" YEAR_MONTH) AND CURRENT_DATE))
 
-idDoctorant HAVING COUNT(idScientifique)>3
+--24.   Les scientifiques qui ont plus de 3 doctorants qui ont débuté leur thèse il y a moins de 2 ans.
 
---24.   Les scientifiques qui ont plus de 3 doctorants qui ont débuté leur thèse il y a moins de 2 ans. TODO
-SELECT idScientifique FROM ScientifiqueEncadreDoctorant
-GROUP BY (SELECT idPersonnel FROM Personnel p WHERE (p.Date_recrutement BETWEEN SUBDATE(CURRENT_DATE, INTERVAL 2 YEAR) AND CURRENT_DATE)
-HAVING COUNT(idScientifique)>3
+-- NON TESTABLE !!!!!!!!
 
-	  --SELECT idPersonnel FROM Personnel p WHERE p.Date_recrutement BETWEEN (CURRENT_DATE - interval '2 year') AND CURRENT_DATE
-	  --BETWEEN '2017-05-13' AND
-	  --EXTRACT(YEAR FROM CURRENT_DATE)-2
-	  --p.date_recrutement BETWEEN SUBDATE(CURRENT_DATE,INTERVAL "02-00" YEAR_MONTH) AND CURRENT_DATE)) HAVING COUNT(idScientifique)>3
-	  
+SELECT s.idScientifique FROM (
+SELECT idScientifique, COUNT(idDoctorant) as NbDocts FROM ScientifiqueEncadreDoctorant
+WHERE idDoctorant IN (
+SELECT idDoctorant FROM Doctorant
+WHERE idDoctorant IN (
+SELECT idPersonnel FROM Personnel
+WHERE EXTRACT(YEAR FROM Date_recrutement)>=(EXTRACT(YEAR FROM CURRENT_DATE)-2)))
+GROUP BY idScientifique) as s
+WHERE s.NbDocts>3
+
 
 --25.   Les doctorants qui ont au moins une publication chaque année depuis leur recrutement
 

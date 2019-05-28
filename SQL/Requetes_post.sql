@@ -175,6 +175,21 @@ HAVING COUNT(*)=1 ))))
 
 SELECT idDoctorant FROM ScientifiqueEncadreDoctorant GROUP BY idDoctorant HAVING COUNT(idScientifique)>3
 
+--24.   Les scientifiques qui ont plus de 3 doctorants qui ont débuté leur thèse il y a moins de 2 ans.
+
+-- NON TESTABLE !!!!!!!!
+
+SELECT s.idScientifique FROM (
+SELECT idScientifique, COUNT(idDoctorant) as NbDocts FROM ScientifiqueEncadreDoctorant
+WHERE idDoctorant IN (
+SELECT idDoctorant FROM Doctorant
+WHERE idDoctorant IN (
+SELECT idPersonnel FROM Personnel
+WHERE EXTRACT(YEAR FROM Date_recrutement)>=(EXTRACT(YEAR FROM CURRENT_DATE)-2)))
+GROUP BY idScientifique) as s
+WHERE s.NbDocts>3
+
+
 --26.   Les scientifiques qui recrutent au moins un doctorant par année
 
 
