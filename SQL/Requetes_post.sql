@@ -1,5 +1,3 @@
--- REQUETES TESTEES ---------------------------------------------------------------
-
 --1.     Le nom et les grades des encadrants d’un doctorant donné
 
 SELECT p.Nom,s.grade FROM 
@@ -252,7 +250,7 @@ SELECT idScientifique FROM Scientifique WHERE idScientifique IN(
 EXCEPT
 (SELECT idPersonnel FROM PersonnelPublie WHERE idPublication IN (SELECT idPublication FROM Publication WHERE nom_conference_journal IN (SELECT nom_conference_journal FROM TypeConf WHERE classe_conference!='A'))))
 
---29
+--29 Les scientifiques qui n’ont jamais publié dans des conférences de classe A
 
 (SELECT idScientifique FROM Scientifique)
 INTERSECT
