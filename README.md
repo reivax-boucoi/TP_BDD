@@ -18,7 +18,7 @@ Repo de travail TP_BDD 3IMACS-AE
 - [ ] Tester les requêtes SQL (`./SQL/Requetes.sql`)
 - [ ] Ajouter les screenshots manquants des résultats des requêtes validées (`./Rapport/screenshots/r*.PNG`)  
 - [x] Optional : migrate to posgresql to use the provided DB
-- [ ] Faire le rapport  (`./Rapport/main.tex`)
+- [ ] **Faire le rapport  (`./Rapport/main.tex`)**
 - [ ] Mettre à jour les images des diagrammes ~~relationnels~~ et UML avec la nouvelle structure révisée  
   
 ### ISSUES
