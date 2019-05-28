@@ -27,10 +27,23 @@ WHERE (idDoctorant IN (SELECT idDoctorant FROM Doctorant WHERE (date_soutenance 
 
 
 --22.   Les doctorants qui ont un seul encadrant et qui ont toujours des publications qu’avec leur encadrant
+SELECT idDoctorant FROM Doctorant 
+WHERE idDoctorant IN (
+SELECT idPersonnel FROM PersonnelPublie
+WHERE idPublication IN (
 
-SELECT idDoctorant FROM ScientifiqueEncadreDoctorant WHERE 
+(SELECT idPublication FROM PersonnelPublie --publi scientifiques avec 1 encadrant
+WHERE idPersonnel in
+(SELECT idScientifique FROM ScientifiqueEncadreDoctorant
+GROUP BY idScientifique)
 
+INTERSECT
 
+SELECT idPublication FROM PersonnelPublie --publi doctorantes avec 1 encadrant
+WHERE idPersonnel in
+(SELECT idDoctorant FROM ScientifiqueEncadreDoctorant
+GROUP BY idDoctorant
+HAVING COUNT(*)=1 ))))
 
 --24.   Les scientifiques qui ont plus de 3 doctorants qui ont débuté leur thèse il y a moins de 2 ans. TODO
 SELECT idPersonnel FROM Personnel p WHERE ((EXTRACT(YEAR FROM p.Date_recrutement) >= (EXTRACT(YEAR FROM CURRENT_DATE))-2) OR (EXTRACT(YEAR FROM p.date_recrutement) < EXTRACT(YEAR FROM CURRENT_DATE)))

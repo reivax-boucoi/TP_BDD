@@ -151,7 +151,25 @@ LEFT JOIN(SELECT idAuteur, NomLabo FROM Auteur) as a
 ON pn.Nom=a.NomLabo
 GROUP BY pn.Pays
 
+--22.   Les doctorants qui ont un seul encadrant et qui ont toujours des publications qu’avec leur encadrant
 
+SELECT idDoctorant FROM Doctorant 
+WHERE idDoctorant IN (
+SELECT idPersonnel FROM PersonnelPublie
+WHERE idPublication IN (
+
+(SELECT idPublication FROM PersonnelPublie 
+WHERE idPersonnel in
+(SELECT idScientifique FROM ScientifiqueEncadreDoctorant
+GROUP BY idScientifique)
+
+INTERSECT
+
+SELECT idPublication FROM PersonnelPublie 
+WHERE idPersonnel in
+(SELECT idDoctorant FROM ScientifiqueEncadreDoctorant
+GROUP BY idDoctorant
+HAVING COUNT(*)=1 ))))
 
 --23.   Les doctorants qui ont plus de 3 encadrants
 
