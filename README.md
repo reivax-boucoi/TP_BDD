@@ -23,4 +23,6 @@ Repo de travail TP_BDD 3IMACS-AE
   
 ### ISSUES
 
+Loriane, Zak ou Vincent, on ne peut pas tester la requête n°24.
+
 UNION and INTERSECT don't seem to work in MYSQL
