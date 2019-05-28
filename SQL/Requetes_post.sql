@@ -189,6 +189,21 @@ WHERE EXTRACT(YEAR FROM Date_recrutement)>=(EXTRACT(YEAR FROM CURRENT_DATE)-2)))
 GROUP BY idScientifique) as s
 WHERE s.NbDocts>3
 
+--25.   Les doctorants qui ont au moins une publication chaque année depuis leur recrutement
+
+SELECT np.idPersonnel
+FROM 
+(SELECT DISTINCT dp.idPersonnel, COUNT(pa.annee_publication) as ap
+FROM(SELECT idPersonnel, idPublication FROM PersonnelPublie
+WHERE idPersonnel IN (SELECT idDoctorant FROM Doctorant))as dp
+JOIN
+(SELECT idPublication, annee_publication FROM Publication) as pa
+ON dp.idPublication=pa.idPublication
+GROUP BY dp.idPersonnel)as np
+JOIN
+(SELECT idPersonnel, EXTRACT(YEAR FROM CURRENT_DATE)-EXTRACT(YEAR FROM Date_recrutement) as Nbannees FROM Personnel) as tp
+ON tp.idPersonnel=np.idPersonnel
+WHERE np.ap = tp.Nbannees
 
 --26.   Les scientifiques qui recrutent au moins un doctorant par année
 
