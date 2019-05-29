@@ -7,6 +7,8 @@ Repo de travail TP_BDD 3IMACS-AE
 > BOURLOT Xavier
 
 ***
+#### Le rapport est accessible sur overleaf.com, login : bourlot@etud;insa-toulouse.fr et pwd : bdd_rapport
+***
 ### TODO  
 - [x] Concevoir la  base de donnée en UML  (`class_diagram.png`)
 - [x] Traduire le diagramme de classe vers le modèle relationnel  (`relation_diagram_phpmyadmin.png`)
